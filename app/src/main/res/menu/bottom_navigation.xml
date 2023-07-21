@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/it_bottom_navigation_home"
+        android:icon="@drawable/ic_home_gray"
+        android:enabled="true"
+        android:title="Home"/>
+
+    <item
+        android:id="@+id/it_bottom_navigation_record"
+        android:icon="@drawable/ic_record_gray"
+        android:enabled="true"
+        android:title="Record"/>
+
+
+    <item
+        android:id="@+id/it_bottom_navigation_report"
+        android:icon="@drawable/ic_report_gray"
+        android:enabled="true"
+        android:title="Report"/>
+
+    <item
+        android:id="@+id/it_bottom_navigation_setting"
+        android:icon="@drawable/ic_setting_gray"
+        android:enabled="true"
+        android:title="Setting"/>
+
+
+</menu>
