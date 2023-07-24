@@ -12,9 +12,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="main_1">#13A4B8</color>
-    <color name="main_2">#8FD5DE</color>
-    <color name="main_3">#DEEEF0</color>
+    <color name="main_1">#655691</color>
+    <color name="main_2">#8E84AD</color>
+    <color name="main_3">#CBB7D4</color>
+    <color name="main_4">#E5DFE8</color>
 
     <color name="gray_1">#6E6E73</color>
     <color name="gray_2">#A1A1A5</color>
