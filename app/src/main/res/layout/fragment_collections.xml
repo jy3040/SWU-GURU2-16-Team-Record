@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment_collections">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="24dp">
+
+        <HorizontalScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:scrollbars="none">
+
+            <!--카테고리 칩 영역-->
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/cp_collections_01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="4dp"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    app:chipBackgroundColor="@color/chip_category_bg"
+                    android:textColor="@color/chip_category_txt"
+                    app:chipStrokeColor="@color/chip_category_ln"
+                    app:chipStrokeWidth="1dp"
+
+                    android:text="감자칩"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/cp_collections_02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="4dp"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    app:chipBackgroundColor="@color/chip_category_bg"
+                    android:textColor="@color/chip_category_txt"
+                    app:chipStrokeColor="@color/chip_category_ln"
+                    app:chipStrokeWidth="1dp"
+
+                    android:text="감자칩"/>
+            </LinearLayout>
+        </HorizontalScrollView>
+        <!--카테고리 칩 영역 끝-->
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/iv_collections_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:text="카테고리명"/>
+
+            <!--목록-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_collections_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:listitem="@layout/list_collection"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                app:spanCount="3" />
+            <!--목록 끝-->
+
+        </LinearLayout>
+
+    </ScrollView>
+    </LinearLayout>
+</FrameLayout>

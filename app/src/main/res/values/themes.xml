@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Nota" parent="Theme.AppCompat.Light">
+    <!--tap bar-->
+    <style name="Theme.Nota" parent="Theme.MaterialComponents.Light.Bridge">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!--bottom navigation-->
     <style name="Widget.BottomNavigationView" parent="Widget.Design.BottomNavigationView"/>
+
+    <!--tap layout-->
+    <style name="merchandise_tab_text_appearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingTop">32dp</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
 </resources>

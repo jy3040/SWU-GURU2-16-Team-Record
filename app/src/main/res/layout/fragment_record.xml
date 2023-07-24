@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment_record">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:paddingTop="32dp">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tl_record"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabGravity="fill"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabIndicatorColor="@color/main_1"
+            app:tabIndicatorHeight="4dp"
+            app:tabSelectedTextColor="@color/main_1"
+            app:tabTextAppearance="@style/merchandise_tab_text_appearance"
+            app:tabTextColor="@color/gray_2">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/ti_collections"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Collections" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/ti_wishes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wishes" />
+
+    </com.google.android.material.tabs.TabLayout>
+
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray_2"/>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_record"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+    <!--플로팅 버튼-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fb_record_floating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="24dp"
+        android:src="@drawable/ic_plus_white"
+        app:elevation="6dp"
+        app:backgroundTint="@color/main_1"/>
+    <!--플로팅 버튼 끝-->
+
+</FrameLayout>

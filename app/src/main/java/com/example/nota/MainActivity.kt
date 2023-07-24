@@ -16,9 +16,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-    //{} 안 fragment 변경 필요 (현재 전부 home)
+    //{} 안 fragment 변경 필요 (현재 일부만 변경됨)
     private val fragment_home by lazy { fragment_home() }
-    private val fragment_record by lazy { fragment_home() }
+    private val fragment_record by lazy { fragment_record() }
     private val fragment_report by lazy { fragment_home() }
     private val fragment_setting by lazy { fragment_home() }
     override fun onCreate(savedInstanceState: Bundle?) {

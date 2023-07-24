@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_wish"
+    android:layout_width="match_parent"
+    android:layout_height="88dp"
+    android:background="@drawable/list_wish"
+    android:layout_marginTop="16dp"
+    android:paddingHorizontal="16dp">
+
+    <CheckBox
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:button="@drawable/bt_list_wish"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="44dp"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tv_wish_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+
+            android:text="제목"/>
+
+        <TextView
+            android:id="@+id/tv_wish_overview"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+
+            android:text="설명"/>
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/ib_wish_menu"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center|right"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="24dp"
+        android:layout_marginEnd="4dp"
+        android:background="@drawable/ic_menu"
+        android:backgroundTint="@color/gray_2" />
+</RelativeLayout>
