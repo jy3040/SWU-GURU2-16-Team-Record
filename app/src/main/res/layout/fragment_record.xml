@@ -29,13 +29,13 @@
             android:id="@+id/ti_collections"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Collections" />
+            android:text="컬렉션" />
 
         <com.google.android.material.tabs.TabItem
             android:id="@+id/ti_wishes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wishes" />
+            android:text="위시" />
 
     </com.google.android.material.tabs.TabLayout>
 
