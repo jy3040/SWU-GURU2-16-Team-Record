@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+콜렉션 작성 xml
+
+_____ id 설명 _____
+spinner_category : 카테고리 선택 Spinner
+editText_collectionTitle : 제목 작성 EditText
+editText_YYYY : 수집 날짜_year 작성 EditText
+editText_MM : 수집 날짜_month 작성 EditText
+editText_DD : 수집 날짜_date 작성 EditText
+ratingStar : 별점 Rating Bar
+editText_content : 감상 작성 EditText
+recyclerView_image : 사진 리사이클러뷰
+recyclerView_Option : 선택 추가 옵션 리사이클러뷰
+button_addOption : 선택 추가 옵션 추가버튼
+-->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"

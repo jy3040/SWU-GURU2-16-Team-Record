@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+회원가입 화면 xml
+
+_____id 설명_____
+profileImage : 프로필 이미지 (src로 이미지 호출)
+editText_name : 이름 작성 EditText
+editText_password : 비밀번호 작성 EditText
+button_logIn : 완료 버튼
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
