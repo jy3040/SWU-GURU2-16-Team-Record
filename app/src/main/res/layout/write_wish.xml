@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+위시 작성 xml
+
+_____ id 설명 _____
+spinner_category : 카테고리 선택 spinner
+editText_collectionTitle : 제목 작성 EditText
+editText_content : 설명 작성 EditText
+-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
