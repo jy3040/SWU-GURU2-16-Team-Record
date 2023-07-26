@@ -147,8 +147,8 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="92dp"
         android:src="@drawable/ic_pen_white"
-        app:backgroundTint="@color/main_2"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:backgroundTint="@color/main_2" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fb_home_floating"

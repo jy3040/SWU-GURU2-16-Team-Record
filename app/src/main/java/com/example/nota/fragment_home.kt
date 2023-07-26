@@ -34,6 +34,12 @@ private const val ARG_PARAM2 = "param2"
 class fragment_home: Fragment() {
 
     private lateinit var fb_home_floating:FloatingActionButton
+    private lateinit var fb_home_floating_c:FloatingActionButton
+    private lateinit var tv_home_floating_c:TextView
+    private lateinit var fb_home_floating_w:FloatingActionButton
+    private lateinit var tv_home_floating_w:TextView
+
+    var isRunning:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,8 +71,33 @@ class fragment_home: Fragment() {
         //----------------------------------------
 
         fb_home_floating = view.findViewById(R.id.fb_home_floating)
+        fb_home_floating_c = view.findViewById(R.id.fb_home_floating_c)
+        tv_home_floating_c = view.findViewById(R.id.tv_home_floating_c)
+        fb_home_floating_w = view.findViewById(R.id.fb_home_floating_w)
+        tv_home_floating_w = view.findViewById(R.id.tv_home_floating_w)
+
         fb_home_floating.setOnClickListener {
+            isRunning = !isRunning
+            if (isRunning) {
+                // 다른 플로팅액션버튼들과 텍스트뷰들을 보이도록 설정
+                fb_home_floating_c.visibility = View.VISIBLE
+                tv_home_floating_c.visibility = View.VISIBLE
+                fb_home_floating_w.visibility = View.VISIBLE
+                tv_home_floating_w.visibility = View.VISIBLE
+            } else {
+                // 다른 플로팅액션버튼들과 텍스트뷰들을 숨기도록 설정
+                fb_home_floating_c.visibility = View.GONE
+                tv_home_floating_c.visibility = View.GONE
+                fb_home_floating_w.visibility = View.GONE
+                tv_home_floating_w.visibility = View.GONE
+            }
+        }
+        fb_home_floating_c.setOnClickListener {
             val intent = Intent(requireContext(), WriteCollectionActivity::class.java)
+            startActivity(intent)
+        }
+        fb_home_floating_w.setOnClickListener {
+            val intent = Intent(requireContext(), WriteWishActivity::class.java)
             startActivity(intent)
         }
 

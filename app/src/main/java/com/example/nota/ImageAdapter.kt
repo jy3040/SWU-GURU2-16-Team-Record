@@ -12,7 +12,7 @@ class ImageAdapter : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
     private val imageList: List<String> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.image_grid_list, parent, false)
         return ImageViewHolder(view)
     }
 
