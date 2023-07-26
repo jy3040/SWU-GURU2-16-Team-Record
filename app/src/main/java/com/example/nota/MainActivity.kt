@@ -19,8 +19,8 @@ class MainActivity : AppCompatActivity() {
     //{} 안 fragment 변경 필요 (현재 일부만 변경됨)
     private val fragment_home by lazy { fragment_home() }
     private val fragment_record by lazy { fragment_record() }
-    private val fragment_report by lazy { fragment_home() }
-    private val fragment_setting by lazy { fragment_home() }
+    private val fragment_report by lazy { fragment_report() }
+    private val fragment_setting by lazy { fragment_setting() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)

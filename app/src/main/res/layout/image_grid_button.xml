@@ -14,6 +14,5 @@ write_collection의 사진 리사이클러 뷰(id/recyclerView_image)에서 사�
         android:maxWidth="100dp"
         android:maxHeight="100dp"
         android:background="@drawable/btn_setting"
-        android:ignore="SpeakableTextPresentCheck"
         />
 </LinearLayout>
