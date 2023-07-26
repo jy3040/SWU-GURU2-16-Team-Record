@@ -76,13 +76,23 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
-                        android:id="@+id/iv_wishes_title"
+                        android:id="@+id/tv_wishes_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="20sp"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         android:text="카테고리명"/>
+
+                    <TextView
+                        android:id="@+id/tv_wishes_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="@color/gray_2"
+                        android:layout_marginLeft="4dp"
+
+                        android:text="(0)"/>
 
                     <View
                         android:layout_width="0dp"
