@@ -13,7 +13,7 @@ recyclerview_bestChoice : 베스트 콜렉션 리사이클러뷰 -> 리스트: b
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/linearLayout3"
+    android:id="@+id/frameLayout3"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
