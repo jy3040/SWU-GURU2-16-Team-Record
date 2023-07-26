@@ -19,4 +19,9 @@
         <item name="android:includeFontPadding">false</item>
     </style>
 
+    <style name="RatingStar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@color/main_1</item>
+        <item name="colorControlActivated">@color/main_2</item>
+    </style>
+
 </resources>
