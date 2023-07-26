@@ -97,7 +97,8 @@
                 <Spinner
                     android:id="@+id/sp_collections_category"
                     android:layout_width="124dp"
-                    android:layout_height="fill_parent"/>
+                    android:layout_height="36dp"
+                    android:background="@drawable/spinner_custom"/>
             </LinearLayout>
 
 
