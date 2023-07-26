@@ -33,7 +33,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class fragment_home: Fragment() {
 
-    //private lateinit var fb_home_floating:FloatingActionButton
+    private lateinit var fb_home_floating:FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,12 +64,12 @@ class fragment_home: Fragment() {
         snap.attachToRecyclerView(calendar_custom)
         //----------------------------------------
 
-        /*fb_home_floating = view.findViewById(R.id.fb_home_floating)
+        fb_home_floating = view.findViewById(R.id.fb_home_floating)
         fb_home_floating.setOnClickListener {
-            val intent = Intent(requireContext(), write_collection::class.java)
+            val intent = Intent(requireContext(), WriteCollectionActivity::class.java)
             startActivity(intent)
         }
-*/
+
         return view
     }
 
