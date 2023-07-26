@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private val fragment_home by lazy { fragment_home() }
     private val fragment_record by lazy { fragment_record() }
     private val fragment_report by lazy { fragment_report() }
-    private val fragment_setting by lazy { fragment_report() }
+    private val fragment_setting by lazy { fragment_setting() }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)

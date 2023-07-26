@@ -49,7 +49,7 @@ class fragment_record : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
 
-        val mainActivityView=(activity as MainActivity)
+        val mainActivityView = (activity as MainActivity)
         val viewPagerAdapter = tabAdapter_record(mainActivityView)
 
         // fragment add
@@ -60,14 +60,18 @@ class fragment_record : Fragment() {
         viewPager_record?.adapter = viewPagerAdapter
         viewPager_record?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
 
-            override fun onPageSelected(position: Int){
+            override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                Log.e("ViewPagerFragment", "Page ${position+1}")
+                Log.e("ViewPagerFragment", "Page ${position + 1}")
             }
         })
         // 뷰페이저와 탭레이아웃을 붙임
-        TabLayoutMediator(tabLayout_record, viewPager_record){ tab, position ->
-            tab.text = "Tab ${position+1}"
+        TabLayoutMediator(tabLayout_record, viewPager_record) { tab, position ->
+            when (position) {
+                0 -> tab.text = "컬렉션"
+                1 -> tab.text = "위시"
+                else -> tab.text = "Tab ${position + 1}"
+            }
         }.attach()
     }
     //-------------------------------------------------------

@@ -41,7 +41,7 @@
                     app:chipStrokeColor="@color/chip_category_ln"
                     app:chipStrokeWidth="1dp"
 
-                    android:text="감자칩"/>
+                    android:text="영화"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/cp_collections_02"
@@ -54,7 +54,7 @@
                     app:chipStrokeColor="@color/chip_category_ln"
                     app:chipStrokeWidth="1dp"
 
-                    android:text="감자칩"/>
+                    android:text="책"/>
                 </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
         </HorizontalScrollView>
