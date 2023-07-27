@@ -10,4 +10,7 @@ class CreateAccountActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.log_in)
     }
+    fun onBackButtonClicked(view: View) {
+        finish()
+    }
 }
