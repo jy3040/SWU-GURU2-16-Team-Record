@@ -62,6 +62,7 @@ class LoginActivity : AppCompatActivity() {
 
         })
     }
-
+    fun onBackButtonClicked(view: View) {
+        finish()
     }
-z
+}

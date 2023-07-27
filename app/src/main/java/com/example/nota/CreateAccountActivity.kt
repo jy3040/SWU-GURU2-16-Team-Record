@@ -51,6 +51,9 @@ class CreateAccountActivity : AppCompatActivity() {
         }
 
     }
+    fun onBackButtonClicked(view: View) {
+        finish()
+    }
     private fun createUser(email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
