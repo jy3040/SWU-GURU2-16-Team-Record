@@ -19,16 +19,22 @@
             android:name=".ui.theme.Login"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
-            android:exported="false" />
-        <activity
             android:name=".WriteCollectionActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Nota">
+            android:theme="@style/Theme.Nota"/>
+        <activity
+            android:name=".CreateAccountActivity"
+            android:label="회원가입 페이지" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="로그인 페이지" />
+        <activity
+            android:name=".StartActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
