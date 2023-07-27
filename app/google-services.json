@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "495862329882",
+    "project_id": "nota-89a90",
+    "storage_bucket": "nota-89a90.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495862329882:android:142ee5395f275e988317a3",
+        "android_client_info": {
+          "package_name": "com.example.nota"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "495862329882-nil3p9q75h58qjlm0j2ard426h6bdkcl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQNC0_IBL_nelCVAiBgFxhDWc8tYYhgP8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "495862329882-nil3p9q75h58qjlm0j2ard426h6bdkcl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

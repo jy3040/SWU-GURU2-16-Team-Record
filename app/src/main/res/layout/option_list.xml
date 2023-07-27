@@ -28,7 +28,7 @@ write_collection의 선택 추가 옵션 리사이클러 뷰(id/recyclerView_Opt
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextText2"
+        android:id="@+id/editText_optionContent"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginStart="24dp"
