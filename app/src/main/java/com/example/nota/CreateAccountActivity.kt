@@ -24,6 +24,7 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import java.util.Locale
@@ -33,6 +34,7 @@ class CreateAccountActivity : AppCompatActivity() {
     private val OPEN_GALLERY = 1
 
     lateinit var editText_name: EditText
+    lateinit var editText_email: EditText
     lateinit var editText_password: EditText
     lateinit var editText_passwordVerify: EditText
     lateinit var button_logIn: Button
@@ -44,6 +46,7 @@ class CreateAccountActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private var fbStorage: FirebaseStorage?=null
+    private var fbFirestore: FirebaseFirestore?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +54,7 @@ class CreateAccountActivity : AppCompatActivity() {
         setContentView(R.layout.log_in)
 
         editText_name = findViewById(R.id.editText_name)
+        editText_email = findViewById(R.id.editText_email)
         editText_password = findViewById(R.id.editText_password)
         editText_passwordVerify = findViewById(R.id.editText_passwordVerify)
         button_logIn = findViewById(R.id.button_logIn)
@@ -59,6 +63,9 @@ class CreateAccountActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         fbStorage = FirebaseStorage.getInstance()
+        fbFirestore = FirebaseFirestore.getInstance()
+
+        // firestore에 user정보 uid와 email 저장
 
 
         button.setOnClickListener {
@@ -67,31 +74,31 @@ class CreateAccountActivity : AppCompatActivity() {
 
 
         button_logIn.setOnClickListener {
-            val email = editText_name.text.toString().trim()
+            val name = editText_name.text.toString().trim()
+            val email = editText_email.text.toString().trim()
             val password = editText_password.text.toString().trim()
             val password_Verify = editText_passwordVerify.text.toString().trim()
 
-            // Validate...
+            //Validate
             if( password.equals(password_Verify)){
+                if(true){
+                var userInfo = User()
+
+                userInfo.uid = auth?.uid
+                userInfo.email = auth?.currentUser?.email
+                    userInfo.name = name
+                    userInfo. password = password
+
+                fbFirestore?.collection("user")?.document(auth?.uid.toString())?.set(userInfo)
+            }
+
                 ImageUpload(it)
                 createUser(email, password)
             }else{
                 Toast.makeText(this, "비밀번호 확인 실패", Toast.LENGTH_SHORT).show()
             }
-        }
-        val user = Firebase.auth.currentUser
 
-        val profileUpdates = userProfileChangeRequest {
-            displayName = user.toString()
-            photoUri = Uri.parse(currentImageUrl.toString())
         }
-
-        user!!.updateProfile(profileUpdates)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "User profile updated.")
-                }
-            }
 
     }
     private fun openGallery(){
@@ -141,7 +148,7 @@ class CreateAccountActivity : AppCompatActivity() {
             }
     }
     private fun ImageUpload(view: View){
-        var email = editText_name.text.toString().trim()
+        var email = editText_email.text.toString().trim()
         var imgFileName = "PROFILE_"+email+"_png"
         var storageRef = fbStorage?.reference?.child("images")?.child(imgFileName)
 

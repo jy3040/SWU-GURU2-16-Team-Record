@@ -13,7 +13,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.nota.BindingAdapter.loadImage
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import java.io.BufferedInputStream
 import java.io.IOException
@@ -38,27 +40,22 @@ class fragment_setting: Fragment() {
         val profileImage = view.findViewById<ImageView>(R.id.profileImage)
         val myPage_name = view.findViewById<TextView>(R.id.myPage_name)
 
-        val user = Firebase.auth.currentUser
+        val db = FirebaseFirestore.getInstance()
+        val collectionRef = db.collection("user")
 
-        user?.let {
-            for (profile in it.providerData) {
-                // Id of the provider (ex: google.com)
-                val providerId = profile.providerId
-
-                // UID specific to the provider
-                val uid = profile.uid
-
-                // Name, email address, and profile photo Url
-                val name = profile.displayName
-                val email = profile.email
-
-                myPage_name.text = email
-
-                loadImage(profileImage, email.toString())
-
+        collectionRef.get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    val name = document.getString("name")
+                    val email = document.getString("email")
+                    myPage_name.text = name
+                    loadImage(profileImage,email.toString())
+                }
+            }
+            .addOnFailureListener { exception ->
+                // 데이터 가져오기 실패 시 처리하는 로직을 구현합니다.
             }
 
-        }
         val logoutButton = view.findViewById<Button>(R.id.button_logout)
         logoutButton.setOnClickListener {
             logoutUser()
