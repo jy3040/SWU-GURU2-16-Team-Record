@@ -208,8 +208,9 @@ button_enter : 작성 완료 버튼
                 android:hint="제목을 입력하세요."
                 android:inputType="text"
                 android:paddingLeft="20dp"
-                android:textColorHint="@color/gray_2"
+                android:textColor="#000000"
 
+                android:textColorHint="@color/gray_2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title_collectionTitle" />
@@ -237,6 +238,7 @@ button_enter : 작성 완료 버튼
                 android:background="@drawable/ic_calender"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/editText_collectionTitle" />
+
             <EditText
                 android:id="@+id/editText_YYYY"
                 android:layout_width="0dp"
@@ -251,6 +253,7 @@ button_enter : 작성 완료 버튼
                 android:inputType="text"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
+                android:textColor="#000000"
                 android:textColorHint="@color/gray_2"
                 app:layout_constraintEnd_toStartOf="@+id/editText_MM"
                 app:layout_constraintStart_toStartOf="parent"
@@ -268,6 +271,7 @@ button_enter : 작성 완료 버튼
                 android:inputType="text"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
+                android:textColor="#000000"
                 android:textColorHint="@color/gray_2"
                 app:layout_constraintEnd_toStartOf="@+id/editText_DD"
                 app:layout_constraintStart_toEndOf="@+id/editText_YYYY"
@@ -287,6 +291,7 @@ button_enter : 작성 완료 버튼
                 android:inputType="text"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
+                android:textColor="#000000"
                 android:textColorHint="@color/gray_2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/editText_MM"
@@ -359,6 +364,7 @@ button_enter : 작성 완료 버튼
                 android:paddingTop="10dp"
                 android:paddingRight="20dp"
                 android:paddingBottom="10dp"
+                android:textColor="#000000"
                 android:textColorHint="@color/gray_2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"

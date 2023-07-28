@@ -11,7 +11,7 @@ class WriteWishActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.write_wish)
 
-        val spinner = findViewById<Spinner>(R.id.spinner_category)
+        val spinner = findViewById<Spinner>(R.id.spinner_wishCategory)
 
         // 카테고리명 배열 가져오기
         val categories = resources.getStringArray(R.array.categories)

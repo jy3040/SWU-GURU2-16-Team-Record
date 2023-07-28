@@ -12,7 +12,7 @@ class WriteCollectionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.write_collection)
 
-        val spinner = findViewById<Spinner>(R.id.spinner_category)
+        val spinner = findViewById<Spinner>(R.id.spinner_collectionCategory)
 
         // 카테고리명 배열 가져오기
         val categories = resources.getStringArray(R.array.categories)
