@@ -24,4 +24,9 @@
         <item name="colorControlActivated">@color/main_2</item>
     </style>
 
+    <!--spinner-->
+    <style name="TextAppearance.AppCompat.Widget.TextView.SpinnerItem." parent="Theme.AppCompat">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 </resources>
