@@ -2,6 +2,7 @@ package com.example.nota
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -31,13 +32,17 @@ class WriteWishActivity : AppCompatActivity() {
         var selectedCategory=""
 
         // 카테고리명 배열 가져오기
-        val categories = resources.getStringArray(R.array.categories)
+        val categories = resources.getStringArray(R.array.categories).toMutableList()
 
         // 스피너 어댑터 설정
         //val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
-        val adapter = ArrayAdapter.createFromResource(this, R.array.categories, R.layout.spinner_textstyle)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
+        //val adapter = ArrayAdapter.createFromResource(this, R.array.categories, R.layout.spinner_textstyle)
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        //spinner.adapter = adapter
+
+        val spinnerAdapter = ArrayAdapter(this, R.layout.spinner_textstyle, categories)
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = spinnerAdapter
 
         //카테고리 선택
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -83,11 +88,32 @@ class WriteWishActivity : AppCompatActivity() {
             button_wishAddCategory.visibility = View.GONE
         }
         button_wishAddCategory2.setOnClickListener {
+            // 새로운 카테고리 추가 버튼이 클릭되면 호출되는 리스너
+
+            val newCategory = editText_wishCategory.text.toString().trim()
+
+            // 새로운 카테고리가 비어있지 않으면 추가
+            if (!TextUtils.isEmpty(newCategory)) {
+                categories.add(newCategory)
+
+                // 스피너 어댑터가 아닌 직접 스피너에 카테고리 배열을 설정
+                spinnerAdapter.notifyDataSetChanged()
+
+                // 새로운 카테고리를 스피너에서 선택하도록 설정
+                spinner.setSelection(categories.size - 1)
+
+                // 에디트 텍스트 비우기
+                editText_wishCategory.text = null
+            }
+
+
+            // 버튼과 에디트 텍스트들을 다시 숨기도록 설정
             button_wishAddCategory2.visibility = View.GONE
             editText_wishCategory.visibility = View.GONE
             button_wishAddCategory.visibility = View.VISIBLE
-            //카테고리를 추가하는 명령어 여기다가 작성하면 됩니당~~~
+
         }
+
     }
 
     fun onBackButtonClicked(view: View) {
