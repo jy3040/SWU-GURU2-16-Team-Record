@@ -27,11 +27,13 @@ class write_collection : Fragment() {
         }
 
         // 선택 추가 옵션 리사이클러뷰 설정
+        /*
         val recyclerViewOption = view.findViewById<RecyclerView>(R.id.recyclerView_Option)
         recyclerViewOption.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = OptionAdapter() // 아래에서 OptionAdapter 구현한 부분
         }
+        */
 
         // 선택 추가 옵션 추가버튼 클릭 리스너 설정 (생략)
 

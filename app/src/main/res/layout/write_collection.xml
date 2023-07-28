@@ -157,7 +157,7 @@ button_enter : 작성 완료 버튼
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
                 android:background="@drawable/spinner_custom"
-
+                android:textColor="@color/gray_1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title_category" />
@@ -179,8 +179,7 @@ button_enter : 작성 완료 버튼
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_collectionCategory"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/spinner_collectionCategory" />
 
             <TextView
                 android:id="@+id/title_collectionTitle"
@@ -251,7 +250,8 @@ button_enter : 작성 완료 버튼
                 android:ems="10"
                 android:gravity="center"
                 android:hint="YYYY"
-                android:inputType="text"
+                android:inputType="number"
+                android:maxLength="4"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textColor="#000000"
@@ -269,7 +269,8 @@ button_enter : 작성 완료 버튼
                 android:ems="10"
                 android:gravity="center"
                 android:hint="MM"
-                android:inputType="text"
+                android:inputType="number"
+                android:maxLength="2"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textColor="#000000"
@@ -289,7 +290,8 @@ button_enter : 작성 완료 버튼
                 android:ems="10"
                 android:gravity="center"
                 android:hint="DD"
-                android:inputType="text"
+                android:inputType="number"
+                android:maxLength="2"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textColor="#000000"
@@ -317,7 +319,6 @@ button_enter : 작성 완료 버튼
             <RatingBar
                 android:id="@+id/ratingStar"
                 style="@style/Widget.AppCompat.RatingBar"
-                android:theme="@style/RatingStar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -325,6 +326,7 @@ button_enter : 작성 완료 버튼
                 android:isIndicator="false"
                 android:numStars="5"
                 android:rating="3"
+                android:theme="@style/RatingStar"
 
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title_score"
@@ -427,20 +429,132 @@ button_enter : 작성 완료 버튼
                 app:layout_constraintTop_toBottomOf="@+id/recyclerView_image"
                 tools:ignore="SpeakableTextPresentCheck" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView_Option"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/linearLayout9"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:layout_marginBottom="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title_addOption">
+
+                <EditText
+                    android:id="@+id/editText_optionTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edittext_setting"
+                    android:ems="10"
+                    android:hint="옵션명(10자 이내)"
+                    android:inputType="text"
+                    android:paddingLeft="20dp"
+                    android:textColorHint="@color/gray_2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/editText_optionContent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edittext_setting"
+                    android:ems="10"
+                    android:hint="내용을 적어주세요."
+                    android:inputType="text"
+                    android:minHeight="50dp"
+                    android:paddingLeft="20dp"
+                    android:textColorHint="@color/gray_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editText_optionTitle" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/linearLayout10"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
+
+                <EditText
+                    android:id="@+id/editText_optionTitle2"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edittext_setting"
+                    android:ems="10"
+                    android:hint="옵션명(10자 이내)"
+                    android:inputType="text"
+                    android:paddingLeft="20dp"
+                    android:textColorHint="@color/gray_2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/editText_optionContent2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edittext_setting"
+                    android:ems="10"
+                    android:hint="내용을 적어주세요."
+                    android:inputType="text"
+                    android:minHeight="50dp"
+                    android:paddingLeft="20dp"
+                    android:textColorHint="@color/gray_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editText_optionTitle2" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/linearLayout11"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="40dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title_addOption" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout10">
 
+                <EditText
+                    android:id="@+id/editText_optionTitle3"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/edittext_setting"
+                    android:ems="10"
+                    android:hint="옵션명(10자 이내)"
+                    android:inputType="text"
+                    android:paddingLeft="20dp"
+                    android:textColorHint="@color/gray_2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <EditText
+                    android:id="@+id/editText_optionContent3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/edittext_setting"
+                    android:ems="10"
+                    android:hint="내용을 적어주세요."
+                    android:inputType="text"
+                    android:minHeight="50dp"
+                    android:paddingLeft="20dp"
+                    android:textColorHint="@color/gray_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/editText_optionTitle3" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
