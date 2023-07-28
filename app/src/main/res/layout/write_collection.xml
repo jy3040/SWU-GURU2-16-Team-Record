@@ -175,7 +175,7 @@ button_enter : 작성 완료 버튼
                 android:inputType="text"
                 android:paddingLeft="20dp"
                 android:textColorHint="@color/gray_2"
-
+                android:textColor="@color/black"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
