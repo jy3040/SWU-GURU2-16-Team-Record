@@ -34,7 +34,8 @@ class WriteWishActivity : AppCompatActivity() {
         val categories = resources.getStringArray(R.array.categories)
 
         // 스피너 어댑터 설정
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+        //val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
+        val adapter = ArrayAdapter.createFromResource(this, R.array.categories, R.layout.spinner_textstyle)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
 
