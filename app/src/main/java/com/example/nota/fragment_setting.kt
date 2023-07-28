@@ -39,21 +39,36 @@ class fragment_setting: Fragment() {
 
         val profileImage = view.findViewById<ImageView>(R.id.profileImage)
         val myPage_name = view.findViewById<TextView>(R.id.myPage_name)
+        val button_setprofile = view.findViewById<Button>(R.id.button_setprofile)
+
+        button_setprofile.setOnClickListener{
+            val intent = Intent(requireContext(), FixActivity::class.java)
+            startActivity(intent)
+        }
 
         val db = FirebaseFirestore.getInstance()
-        val collectionRef = db.collection("user")
+        val auth = FirebaseAuth.getInstance()
+        val uid = auth?.uid
+
+        val collectionRef = db.collection("user").document("$uid")
 
         collectionRef.get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val name = document.getString("name")
-                    val email = document.getString("email")
+            .addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    val name = documentSnapshot.getString("name")
+                    val email = documentSnapshot.getString("email")
                     myPage_name.text = name
+
+                    // 이미지를 직접 가져와서 profileImage에 설정
                     loadImage(profileImage,email.toString())
+                } else {
+                    // 문서가 존재하지 않을 경우에 대한 처리
+                    Toast.makeText(requireContext(), "해당 사용자 정보가 없습니다.", Toast.LENGTH_SHORT).show()
                 }
             }
             .addOnFailureListener { exception ->
                 // 데이터 가져오기 실패 시 처리하는 로직을 구현합니다.
+                Toast.makeText(requireContext(), "데이터 가져오기 실패: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
 
         val logoutButton = view.findViewById<Button>(R.id.button_logout)

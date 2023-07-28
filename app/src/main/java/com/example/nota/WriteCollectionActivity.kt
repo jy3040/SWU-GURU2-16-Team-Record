@@ -81,7 +81,7 @@ class WriteCollectionActivity : AppCompatActivity() {
                 }
                 .addOnFailureListener { exception ->
                     // 실패할 경우
-                    Log.w("WriteWishActivity", "Error getting documents: $exception")
+                    Log.w("WriteCollectionActivity", "Error getting documents: $exception")
                 }
         }
         // 버튼 클릭을 통해 카테고리 추가 버튼 visible로

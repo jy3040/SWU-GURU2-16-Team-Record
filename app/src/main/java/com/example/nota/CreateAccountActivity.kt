@@ -65,33 +65,18 @@ class CreateAccountActivity : AppCompatActivity() {
         fbStorage = FirebaseStorage.getInstance()
         fbFirestore = FirebaseFirestore.getInstance()
 
-        // firestore에 user정보 uid와 email 저장
-
-
         button.setOnClickListener {
             openGallery()
         }
 
 
         button_logIn.setOnClickListener {
-            val name = editText_name.text.toString().trim()
             val email = editText_email.text.toString().trim()
             val password = editText_password.text.toString().trim()
             val password_Verify = editText_passwordVerify.text.toString().trim()
 
             //Validate
             if( password.equals(password_Verify)){
-                if(true){
-                var userInfo = User()
-
-                userInfo.uid = auth?.uid
-                userInfo.email = auth?.currentUser?.email
-                    userInfo.name = name
-                    userInfo. password = password
-
-                fbFirestore?.collection("user")?.document(auth?.uid.toString())?.set(userInfo)
-            }
-
                 ImageUpload(it)
                 createUser(email, password)
             }else{
@@ -100,6 +85,22 @@ class CreateAccountActivity : AppCompatActivity() {
 
         }
 
+    }
+    private fun uploadInfo(){
+        if(true){
+            val name = editText_name.text.toString().trim()
+            val email = editText_email.text.toString().trim()
+            val password = editText_password.text.toString().trim()
+
+            var userInfo = User()
+
+            userInfo.uid = auth?.uid
+            userInfo.email = email
+            userInfo.name = name
+            userInfo. password = password
+
+            fbFirestore?.collection("user")?.document(auth?.uid.toString())?.set(userInfo)
+        }
     }
     private fun openGallery(){
         val intent = Intent(Intent.ACTION_GET_CONTENT)
@@ -134,6 +135,7 @@ class CreateAccountActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
                     val user = auth.currentUser
+                    uploadInfo()
                     var intent = Intent(this, LoginActivity::class.java)
                     startActivity(intent)
 
