@@ -38,9 +38,6 @@ class WriteCollectionActivity : AppCompatActivity() {
     private lateinit var linearLayout11: ConstraintLayout
 
 
-    private var selectedCategory=""
-    private lateinit var editText_collectionTitle:EditText
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.write_collection)
@@ -102,7 +99,6 @@ class WriteCollectionActivity : AppCompatActivity() {
                 // 예: 선택된 항목을 로그로 출력하거나, 변수에 저장합니다.
                 Log.d("Selected Item", selectedItem)
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // 선택이 해제되었을 때 수행할 동작을 정의합니다.
             }
@@ -169,64 +165,9 @@ class WriteCollectionActivity : AppCompatActivity() {
                                 }
                             }
                         }
-            val collectionTitle = editText_collectionTitle.text.toString()
-            if (collectionTitle.isNotEmpty()) {
-                // 파이어스토어에서 입력한 문서 이름이 있는지 확인합니다.
-                db.collection("Collection")
-                    .document(collectionTitle)
-                    .get()
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            val document = task.result
-                            if (document != null && document.exists()) {
-                                // 이미 문서 이름이 존재하는 경우
-                                Toast.makeText(
-                                    this,
-                                    "이미 존재하는 컬렉션 제목입니다. 다른 제목을 입력해주세요.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            } else {
-                                val imageUrls = imageAdapter.getImageUrls()
-                                // EditText에서 문자열을 가져와 hashMap으로 만듦
-                                val data = hashMapOf(
-
-                                    "category" to selectedCategory,
-                                    "title" to collectionTitle,
-                                    "content" to editText_content.text.toString(),
-                                    "rating" to ratingStar.rating,
-                                    "Y" to editText_YYYY.text.toString().toInt(),
-                                    "M" to editText_MM.text.toString().toInt(),
-                                    "D" to editText_DD.text.toString().toInt(),
-                                    "images" to imageUrls
-                                )
-                                if (selectedCategory == "카테고리를 선택하십시오") {
-                                    // 경고 창을 띄웁니다.
-                                    Toast.makeText(this, "유효한 카테고리를 선택하십시오.", Toast.LENGTH_SHORT).show()
-                                } else {
-                                    // Contacts 컬렉션에 data를 collectionTitle이름으로 저장
-                                    db.collection("Collection")
-                                        .document(collectionTitle)
-                                        .set(data)
-                                        .addOnSuccessListener {
-                                            // 성공할 경우
-                                            Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT).show()
-                                            finish()
-                                        }
-                                        .addOnFailureListener { exception ->
-                                            // 실패할 경우
-                                            Log.w(
-                                                "WriteCollectionActivity",
-                                                "Error getting documents: $exception"
-                                            )
-                                        }
-
-                                }
-                            }
-                        }
                     }
             }
         }
-
         // 버튼 클릭을 통해 카테고리 추가 버튼 visible로
         button_collectionAddCategory.setOnClickListener {
             // 다른 버튼과 텍스트뷰들을 보이도록 설정
