@@ -1,10 +1,14 @@
 package com.example.nota
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.FirebaseFirestore
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +25,9 @@ class fragment_wishes : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private lateinit var rv_wishes_list: RecyclerView
+    private lateinit var WishAdapter:WishAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,7 +41,41 @@ class fragment_wishes : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_wishes, container, false)
+        val view = inflater.inflate(R.layout.fragment_wishes, container, false)
+
+        // 리사이클러뷰 초기화
+        rv_wishes_list = view.findViewById(R.id.rv_wishes_list)
+
+        val layoutManager = GridLayoutManager(requireContext(), 1)
+        rv_wishes_list.layoutManager = layoutManager
+
+        val db = FirebaseFirestore.getInstance()
+        db.collection("Wish")
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                // 성공적으로 데이터를 가져온 경우
+                val collectionList = mutableListOf<WishData>()
+
+                for (document in querySnapshot) {
+                    // 문서 데이터를 CollectionData 객체로 변환하여 리스트에 추가
+                    val title = document.getString("title") ?: ""
+                    val category = document.getString("category") ?:""
+                    val content = document.getString("content") ?:""
+
+                    // CollectionData 객체를 생성하여 리스트에 추가
+                    collectionList.add(WishData(category, content, title))
+                }
+
+                // 어댑터를 생성하고 리사이클러뷰에 연결
+                WishAdapter = WishAdapter(collectionList)
+                rv_wishes_list.adapter = WishAdapter
+            }
+            .addOnFailureListener { exception ->
+                // 실패한 경우
+                Log.w("Firestore", "Error getting documents: $exception")
+            }
+
+        return view
     }
 
     companion object {
