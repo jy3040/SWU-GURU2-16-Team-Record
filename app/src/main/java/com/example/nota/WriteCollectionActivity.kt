@@ -20,11 +20,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 class WriteCollectionActivity : AppCompatActivity() {
     private lateinit var imageAdapter: ImageAdapter
     private lateinit var recyclerView_image: RecyclerView
+
+    private var selectedCategory=""
+    private lateinit var editText_collectionTitle:EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +43,7 @@ class WriteCollectionActivity : AppCompatActivity() {
         val editText_collectionCategory = findViewById<EditText>(R.id.editText_collectionCategory)
 
         val button_enter = findViewById<Button>(R.id.button_enter)
-        var editText_collectionTitle = findViewById<EditText>(R.id.editText_collectionTitle)
+        editText_collectionTitle = findViewById<EditText>(R.id.editText_collectionTitle)
         var editText_content = findViewById<EditText>(R.id.editText_content)
         var ratingStar = findViewById<RatingBar>(R.id.ratingStar)
         var editText_YYYY = findViewById<EditText>(R.id.editText_YYYY)
@@ -54,7 +59,7 @@ class WriteCollectionActivity : AppCompatActivity() {
         val gridLayoutManager = GridLayoutManager(this, 3) // 3열로 표시하도록 설정
         recyclerView_image.layoutManager = gridLayoutManager
         //----------------------------------------------------
-        var selectedCategory=""
+
 
         // 카테고리명 배열 가져오기
         val categories = resources.getStringArray(R.array.categories)
@@ -80,48 +85,80 @@ class WriteCollectionActivity : AppCompatActivity() {
         }
         // 버튼 클릭 시에 데이터베이스에 저장
         button_enter.setOnClickListener {
-            // EditText에서 문자열을 가져와 hashMap으로 만듦
-            val data = hashMapOf(
-                "category" to selectedCategory,
-                "title" to editText_collectionTitle.text.toString(),
-                "content" to editText_content.text.toString(),
-                "rating" to ratingStar.rating.toLong(),
-                "Y" to editText_YYYY.text.toString().toInt(),
-                "M" to editText_MM.text.toString().toInt(),
-                "D" to editText_DD.text.toString().toInt(),
-                "image" to "image_url"
-            )
-            // Contacts 컬렉션에 data를 자동 이름으로 저장
-            db.collection("Collection")
-                .add(data)
-                .addOnSuccessListener {
-                    // 성공할 경우
-                    Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT).show()
-                    finish()
-                }
-                .addOnFailureListener { exception ->
-                    // 실패할 경우
-                    Log.w("WriteCollectionActivity", "Error getting documents: $exception")
-                }
-            if (selectedCategory == "카테고리를 선택하십시오") {
-                // 경고 창을 띄웁니다.
-                Toast.makeText(this, "유효한 카테고리를 선택하십시오.", Toast.LENGTH_SHORT).show()
-            } else {
-                // Contacts 컬렉션에 data를 자동 이름으로 저장
+            val collectionTitle = editText_collectionTitle.text.toString()
+            if (collectionTitle.isNotEmpty()) {
+                // 파이어스토어에서 입력한 문서 이름이 있는지 확인합니다.
                 db.collection("Collection")
-                    .add(data)
-                    .addOnSuccessListener {
-                        // 성공할 경우
-                        Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT).show()
-                        finish()
-                    }
-                    .addOnFailureListener { exception ->
-                        // 실패할 경우
-                        Log.w("WriteCollectionActivity", "Error getting documents: $exception")
+                    .document(collectionTitle)
+                    .get()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val document = task.result
+                            if (document != null && document.exists()) {
+                                // 이미 문서 이름이 존재하는 경우
+                                Toast.makeText(
+                                    this,
+                                    "이미 존재하는 컬렉션 제목입니다. 다른 제목을 입력해주세요.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            } else {
+                                val imageUrls = imageAdapter.getImageUrls()
+                                // EditText에서 문자열을 가져와 hashMap으로 만듦
+                                val data = hashMapOf(
+
+                                    "category" to selectedCategory,
+                                    "title" to collectionTitle,
+                                    "content" to editText_content.text.toString(),
+                                    "rating" to ratingStar.rating,
+                                    "Y" to editText_YYYY.text.toString().toInt(),
+                                    "M" to editText_MM.text.toString().toInt(),
+                                    "D" to editText_DD.text.toString().toInt(),
+                                    "images" to imageUrls
+                                )
+                                // Contacts 컬렉션에 data를 collectionTitle이름으로 저장
+                                db.collection("Collection")
+                                    .document(collectionTitle)
+                                    .set(data)
+                                    .addOnSuccessListener {
+                                        // 성공할 경우
+                                        Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT)
+                                            .show()
+                                        finish()
+                                    }
+                                    .addOnFailureListener { exception ->
+                                        // 실패할 경우
+                                        Log.w(
+                                            "WriteCollectionActivity",
+                                            "Error getting documents: $exception"
+                                        )
+                                    }
+                                if (selectedCategory == "카테고리를 선택하십시오") {
+                                    // 경고 창을 띄웁니다.
+                                    Toast.makeText(this, "유효한 카테고리를 선택하십시오.", Toast.LENGTH_SHORT)
+                                        .show()
+                                } else {
+                                    // Contacts 컬렉션에 data를 자동 이름으로 저장
+                                    db.collection("Collection")
+                                        .add(data)
+                                        .addOnSuccessListener {
+                                            // 성공할 경우
+                                            Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT)
+                                                .show()
+                                            finish()
+                                        }
+                                        .addOnFailureListener { exception ->
+                                            // 실패할 경우
+                                            Log.w(
+                                                "WriteCollectionActivity",
+                                                "Error getting documents: $exception"
+                                            )
+                                        }
+                                }
+                            }
+                        }
                     }
             }
         }
-
         // 버튼 클릭을 통해 카테고리 추가 버튼 visible로
         button_collectionAddCategory.setOnClickListener {
             // 다른 버튼과 텍스트뷰들을 보이도록 설정
@@ -133,7 +170,6 @@ class WriteCollectionActivity : AppCompatActivity() {
             button_collectionAddCategory2.visibility = View.GONE
             editText_collectionCategory.visibility = View.GONE
             button_collectionAddCategory.visibility = View.VISIBLE
-            //카테고리를 추가하는 명령어 여기다가 작성하면 됩니당~~~
         }
 
     }
@@ -152,6 +188,7 @@ class WriteCollectionActivity : AppCompatActivity() {
     companion object {
         private const val REQUEST_CODE_PICK_IMAGE = 1001
     }
+
     fun onBackButtonClicked(view: View) {
         finish()
     }
