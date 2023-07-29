@@ -20,11 +20,6 @@ class write_collection : Fragment() {
         // 카테고리 선택 Spinner 설정 (생략)
 
         // 사진 리사이클러뷰 설정
-        val recyclerViewImage = view.findViewById<RecyclerView>(R.id.recyclerView_image)
-        recyclerViewImage.apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter = ImageAdapter() // 아래에서 ImageAdapter 구현한 부분
-        }
 
         // 선택 추가 옵션 리사이클러뷰 설정
         /*

@@ -1,32 +1,85 @@
 package com.example.nota
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Button
+import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
 
-class ImageAdapter : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+class ImageAdapter(private val images: MutableList<Uri>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    // 여기에 이미지 데이터 리스트를 선언해주세요
-    private val imageList: List<String> = mutableListOf()
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.image_grid_list, parent, false)
-        return ImageViewHolder(view)
+    companion object {
+        private const val VIEW_TYPE_IMAGE = 0
+        private const val VIEW_TYPE_BUTTON = 1
     }
 
-    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        // 이미지 데이터를 뷰에 연결하는 로직을 작성해주세요
-        // 예: holder.imageView.setImageResource(imageList[position])
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_IMAGE -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.image_grid_list, parent, false)
+                ImageViewHolder(view)
+            }
+            VIEW_TYPE_BUTTON -> {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.image_grid_button, parent, false)
+                ButtonViewHolder(view)
+            }
+            else -> throw IllegalArgumentException("Invalid view type")
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder.itemViewType) {
+            VIEW_TYPE_IMAGE -> {
+                val imageUri = images[position]
+                (holder as ImageViewHolder).imageView.setImageURI(imageUri)
+            }
+            VIEW_TYPE_BUTTON -> {
+                (holder as ButtonViewHolder).button_addImage.setOnClickListener {
+                    // 버튼을 클릭했을 때, 갤러리에서 이미지를 선택하도록 WriteCollectionActivity에 알림
+                    val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    if (holder.itemView.context is WriteCollectionActivity) {
+                        (holder.itemView.context as WriteCollectionActivity).startActivityForResult(intent, 1001)
+                    }
+                }
+            }
+        }
     }
 
     override fun getItemCount(): Int {
-        return imageList.size
+        // 이미지 개수에 버튼을 하나 추가한 값을 반환
+        return images.size + 1
     }
 
-    inner class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // 뷰 홀더의 뷰 요소들을 선언해주세요
-        // 예: val imageView: ImageView = itemView.findViewById(R.id.imageView)
+    override fun getItemViewType(position: Int): Int {
+        return if (position < images.size) {
+            VIEW_TYPE_IMAGE
+        } else {
+            VIEW_TYPE_BUTTON
+        }
     }
+
+    fun addImage(imageUri: Uri) {
+        images.add(imageUri)
+        notifyItemInserted(images.size)
+    }
+
+    class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val imageView: ImageView = itemView.findViewById(R.id.imageView_list)
+    }
+
+    class ButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val button_addImage: Button = itemView.findViewById(R.id.button_addImage)
+    }
+
 }
+
