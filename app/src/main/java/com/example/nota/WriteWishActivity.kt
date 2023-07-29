@@ -43,7 +43,6 @@ class WriteWishActivity : AppCompatActivity() {
         val spinnerAdapter = ArrayAdapter(this, R.layout.spinner_textstyle, categories)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = spinnerAdapter
-
         //카테고리 선택
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -53,7 +52,6 @@ class WriteWishActivity : AppCompatActivity() {
                 // 예: 선택된 항목을 로그로 출력하거나, 변수에 저장합니다.
                 Log.d("Selected Item", selectedItem)
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // 선택이 해제되었을 때 수행할 동작을 정의합니다.
             }
@@ -81,18 +79,27 @@ class WriteWishActivity : AppCompatActivity() {
                                     "title" to collectionTitle,
                                     "content" to editText_content.text.toString()
                                 )
-
-                                db.collection("Wish").document(collectionTitle)
-                                    .set(data)
-                                    .addOnSuccessListener {
-                                        // 성공할 경우
-                                        Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT).show()
-                                        finish()
-                                    }
-                                    .addOnFailureListener { exception ->
-                                        // 실패할 경우
-                                        Log.w("WriteWishActivity", "Error getting documents: $exception")
-                                    }
+                                if (selectedCategory == "카테고리를 선택하십시오") {
+                                    // 경고 창을 띄웁니다.
+                                    Toast.makeText(this, "유효한 카테고리를 선택하십시오.", Toast.LENGTH_SHORT)
+                                        .show()
+                                } else {
+                                    db.collection("Wish").document(collectionTitle)
+                                        .set(data)
+                                        .addOnSuccessListener {
+                                            // 성공할 경우
+                                            Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT)
+                                                .show()
+                                            finish()
+                                        }
+                                        .addOnFailureListener { exception ->
+                                            // 실패할 경우
+                                            Log.w(
+                                                "WriteWishActivity",
+                                                "Error getting documents: $exception"
+                                            )
+                                        }
+                                }
                             }
                         } else {
                             Log.w("WriteWishActivity", "Error getting documents: ${task.exception}")

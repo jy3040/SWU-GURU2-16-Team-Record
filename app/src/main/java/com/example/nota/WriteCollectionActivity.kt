@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.TextUtils
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
@@ -59,17 +60,15 @@ class WriteCollectionActivity : AppCompatActivity() {
         val gridLayoutManager = GridLayoutManager(this, 3) // 3열로 표시하도록 설정
         recyclerView_image.layoutManager = gridLayoutManager
         //----------------------------------------------------
-
-
         // 카테고리명 배열 가져오기
-        val categories = resources.getStringArray(R.array.categories)
+        val categories = resources.getStringArray(R.array.categories).toMutableList()
 
         // 스피너 어댑터 설정
         //val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
-        val adapter = ArrayAdapter.createFromResource(this, R.array.categories, R.layout.spinner_textstyle)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.adapter = adapter
-
+        val spinnerAdapter = ArrayAdapter(this, R.layout.spinner_textstyle, categories)
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = spinnerAdapter
+        //카테고리 선택
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedItem = categories[position]
@@ -78,7 +77,6 @@ class WriteCollectionActivity : AppCompatActivity() {
                 // 예: 선택된 항목을 로그로 출력하거나, 변수에 저장합니다.
                 Log.d("Selected Item", selectedItem)
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // 선택이 해제되었을 때 수행할 동작을 정의합니다.
             }
@@ -115,35 +113,17 @@ class WriteCollectionActivity : AppCompatActivity() {
                                     "D" to editText_DD.text.toString().toInt(),
                                     "images" to imageUrls
                                 )
-                                // Contacts 컬렉션에 data를 collectionTitle이름으로 저장
-                                db.collection("Collection")
-                                    .document(collectionTitle)
-                                    .set(data)
-                                    .addOnSuccessListener {
-                                        // 성공할 경우
-                                        Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT)
-                                            .show()
-                                        finish()
-                                    }
-                                    .addOnFailureListener { exception ->
-                                        // 실패할 경우
-                                        Log.w(
-                                            "WriteCollectionActivity",
-                                            "Error getting documents: $exception"
-                                        )
-                                    }
                                 if (selectedCategory == "카테고리를 선택하십시오") {
                                     // 경고 창을 띄웁니다.
-                                    Toast.makeText(this, "유효한 카테고리를 선택하십시오.", Toast.LENGTH_SHORT)
-                                        .show()
+                                    Toast.makeText(this, "유효한 카테고리를 선택하십시오.", Toast.LENGTH_SHORT).show()
                                 } else {
-                                    // Contacts 컬렉션에 data를 자동 이름으로 저장
+                                    // Contacts 컬렉션에 data를 collectionTitle이름으로 저장
                                     db.collection("Collection")
-                                        .add(data)
+                                        .document(collectionTitle)
+                                        .set(data)
                                         .addOnSuccessListener {
                                             // 성공할 경우
-                                            Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT)
-                                                .show()
+                                            Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT).show()
                                             finish()
                                         }
                                         .addOnFailureListener { exception ->
@@ -153,6 +133,7 @@ class WriteCollectionActivity : AppCompatActivity() {
                                                 "Error getting documents: $exception"
                                             )
                                         }
+
                                 }
                             }
                         }
@@ -167,10 +148,32 @@ class WriteCollectionActivity : AppCompatActivity() {
             button_collectionAddCategory.visibility = View.GONE
         }
         button_collectionAddCategory2.setOnClickListener {
+            // 새로운 카테고리 추가 버튼이 클릭되면 호출되는 리스너
+
+            val newCategory = editText_collectionCategory.text.toString().trim()
+
+            // 새로운 카테고리가 비어있지 않으면 추가
+            if (!TextUtils.isEmpty(newCategory)) {
+                categories.add(newCategory)
+
+                // 스피너 어댑터가 아닌 직접 스피너에 카테고리 배열을 설정
+                spinnerAdapter.notifyDataSetChanged()
+
+                // 새로운 카테고리를 스피너에서 선택하도록 설정
+                spinner.setSelection(categories.size - 1)
+
+                // 에디트 텍스트 비우기
+                editText_collectionCategory.text = null
+            }
+
+
+            // 버튼과 에디트 텍스트들을 다시 숨기도록 설정
             button_collectionAddCategory2.visibility = View.GONE
             editText_collectionCategory.visibility = View.GONE
             button_collectionAddCategory.visibility = View.VISIBLE
+
         }
+
 
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -185,6 +188,7 @@ class WriteCollectionActivity : AppCompatActivity() {
             }
         }
     }
+
     companion object {
         private const val REQUEST_CODE_PICK_IMAGE = 1001
     }
