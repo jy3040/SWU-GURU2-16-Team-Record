@@ -1,7 +1,10 @@
 package com.example.nota
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
@@ -12,10 +15,16 @@ import android.widget.EditText
 import android.widget.RatingBar
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.FirebaseFirestore
 
 class WriteCollectionActivity : AppCompatActivity() {
+    private lateinit var imageAdapter: ImageAdapter
+    private lateinit var recyclerView_image: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +45,15 @@ class WriteCollectionActivity : AppCompatActivity() {
         var editText_MM = findViewById<EditText>(R.id.editText_MM)
         var editText_DD = findViewById<EditText>(R.id.editText_DD)
 
+        // 이미지 리사이클러 뷰에 저장하기 위한 코드 시작
+        recyclerView_image = findViewById(R.id.recyclerView_image)
+        imageAdapter = ImageAdapter(mutableListOf())
+        recyclerView_image.adapter = imageAdapter
+
+        // GridLayout으로 변경 (spanCount는 한 줄에 표시될 열의 수를 결정)
+        val gridLayoutManager = GridLayoutManager(this, 3) // 3열로 표시하도록 설정
+        recyclerView_image.layoutManager = gridLayoutManager
+        //----------------------------------------------------
         var selectedCategory=""
 
         // 카테고리명 배열 가져오기
@@ -74,6 +92,17 @@ class WriteCollectionActivity : AppCompatActivity() {
                 "image" to "image_url"
             )
             // Contacts 컬렉션에 data를 자동 이름으로 저장
+            db.collection("Collection")
+                .add(data)
+                .addOnSuccessListener {
+                    // 성공할 경우
+                    Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+                .addOnFailureListener { exception ->
+                    // 실패할 경우
+                    Log.w("WriteCollectionActivity", "Error getting documents: $exception")
+                }
             if (selectedCategory == "카테고리를 선택하십시오") {
                 // 경고 창을 띄웁니다.
                 Toast.makeText(this, "유효한 카테고리를 선택하십시오.", Toast.LENGTH_SHORT).show()
@@ -92,6 +121,7 @@ class WriteCollectionActivity : AppCompatActivity() {
                     }
             }
         }
+
         // 버튼 클릭을 통해 카테고리 추가 버튼 visible로
         button_collectionAddCategory.setOnClickListener {
             // 다른 버튼과 텍스트뷰들을 보이도록 설정
@@ -105,9 +135,25 @@ class WriteCollectionActivity : AppCompatActivity() {
             button_collectionAddCategory.visibility = View.VISIBLE
             //카테고리를 추가하는 명령어 여기다가 작성하면 됩니당~~~
         }
-    }
 
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                val imageUri: Uri? = data.data
+                if (imageUri != null) {
+                    // 선택된 이미지를 RecyclerView에 추가합니다.
+                    imageAdapter.addImage(imageUri)
+                }
+            }
+        }
+    }
+    companion object {
+        private const val REQUEST_CODE_PICK_IMAGE = 1001
+    }
     fun onBackButtonClicked(view: View) {
         finish()
     }
+
 }
