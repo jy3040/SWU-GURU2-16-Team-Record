@@ -68,7 +68,9 @@ class WriteCollectionActivity : AppCompatActivity() {
                 "title" to editText_collectionTitle.text.toString(),
                 "content" to editText_content.text.toString(),
                 "rating" to ratingStar.rating.toLong(),
-                "date" to editText_YYYY.text.toString().toInt(),
+                "Y" to editText_YYYY.text.toString().toInt(),
+                "M" to editText_MM.text.toString().toInt(),
+                "D" to editText_DD.text.toString().toInt(),
                 "image" to "image_url"
             )
             // Contacts 컬렉션에 data를 자동 이름으로 저장
