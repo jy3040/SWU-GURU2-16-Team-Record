@@ -81,18 +81,27 @@ class WriteWishActivity : AppCompatActivity() {
                                     "title" to collectionTitle,
                                     "content" to editText_content.text.toString()
                                 )
-
-                                db.collection("Wish").document(collectionTitle)
-                                    .set(data)
-                                    .addOnSuccessListener {
-                                        // 성공할 경우
-                                        Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT).show()
-                                        finish()
-                                    }
-                                    .addOnFailureListener { exception ->
-                                        // 실패할 경우
-                                        Log.w("WriteWishActivity", "Error getting documents: $exception")
-                                    }
+                                if (selectedCategory == "카테고리를 선택하십시오") {
+                                    // 경고 창을 띄웁니다.
+                                    Toast.makeText(this, "유효한 카테고리를 선택하십시오.", Toast.LENGTH_SHORT)
+                                        .show()
+                                } else {
+                                    db.collection("Wish").document(collectionTitle)
+                                        .set(data)
+                                        .addOnSuccessListener {
+                                            // 성공할 경우
+                                            Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT)
+                                                .show()
+                                            finish()
+                                        }
+                                        .addOnFailureListener { exception ->
+                                            // 실패할 경우
+                                            Log.w(
+                                                "WriteWishActivity",
+                                                "Error getting documents: $exception"
+                                            )
+                                        }
+                                }
                             }
                         } else {
                             Log.w("WriteWishActivity", "Error getting documents: ${task.exception}")
