@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-콜렉션 작성 xml
+콜렉션 수정 xml
 
 _____ id 설명 _____
 spinner_category : 카테고리 선택 Spinner
@@ -68,7 +68,7 @@ button_enter : 작성 완료 버튼
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="컬렉션 작성"
+                    android:text="컬렉션 수정"
                     android:textColor="@color/black"
                     android:textSize="24dp"
                     android:textStyle="bold"
@@ -120,7 +120,7 @@ button_enter : 작성 완료 버튼
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/button_collectionAddCategory"
+                android:id="@+id/button_collectionModifyCategory"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="36dp"
@@ -135,7 +135,7 @@ button_enter : 작성 완료 버튼
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <Button
-                android:id="@+id/button_collectionAddCategory2"
+                android:id="@+id/button_collectionModifyCategory2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"

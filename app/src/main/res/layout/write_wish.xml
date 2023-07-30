@@ -59,7 +59,7 @@ button_enter : 작성 완료 버튼
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Wishes 작성"
+                    android:text="위시 작성"
                     android:textColor="@color/black"
                     android:textSize="24dp"
                     android:textStyle="bold"
