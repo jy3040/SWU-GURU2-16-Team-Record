@@ -1,5 +1,6 @@
 package com.example.nota
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -83,12 +84,21 @@ class fragment_collections : Fragment() {
                                 val optiontitle3 = document.getString("optiontitle3") ?: ""
 
                                 // CollectionData 객체를 생성하여 리스트에 추가
-                                collectionList.add(CollectionData(email, title, rating))
+                                collectionList.add(CollectionData(email,imageUrls, title, rating,Y, M, D, category, content, optioncontent, optioncontent2, optioncontent3, optiontitle, optiontitle2, optiontitle3))
                             }
 
                             // 어댑터를 생성하고 리사이클러뷰에 연결
                             CollectionAdapter = CollectionAdapter(collectionList)
                             rv_collections_list.adapter = CollectionAdapter
+
+                            CollectionAdapter.setOnItemClickListener(object : CollectionAdapter.OnItemClickListener {
+                                override fun onItemClick(collectionData: CollectionData) {
+                                    // CollectionData 객체를 이용하여 CollectionDetailActivity로 이동하는 Intent 작성
+                                    val intent = Intent(requireContext(), CollectionDetailActivity::class.java)
+                                    intent.putExtra("collectionData",collectionData)
+                                    startActivity(intent)
+                                }
+                            })
                         }
                         .addOnFailureListener { exception ->
                             // 실패한 경우
@@ -96,6 +106,8 @@ class fragment_collections : Fragment() {
                         }
                 }
             }
+
+
 
         return view
     }
