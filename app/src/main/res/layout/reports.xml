@@ -266,7 +266,7 @@ recyclerview_bestChoice : 베스트 콜렉션 리사이클러뷰 -> 리스트: b
                 app:layout_constraintTop_toBottomOf="@+id/categoryLayout3" />
 
             <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/barChart"
+                android:id="@+id/bar_chart"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginStart="24dp"
@@ -291,7 +291,7 @@ recyclerview_bestChoice : 베스트 콜렉션 리사이클러뷰 -> 리스트: b
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/barChart" />
+                app:layout_constraintTop_toBottomOf="@+id/bar_chart" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_bestChoice"

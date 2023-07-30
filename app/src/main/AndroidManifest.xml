@@ -20,6 +20,12 @@
             android:name=".CollectionDetailActivity"
             android:exported="false" />
         <activity
+            android:name=".BarChartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PieChartActivity"
+            android:exported="false" />
+        <activity
             android:name=".FixActivity"
             android:exported="false" />
         <activity
