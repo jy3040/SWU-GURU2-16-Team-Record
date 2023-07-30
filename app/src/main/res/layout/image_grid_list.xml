@@ -9,13 +9,13 @@ write_collection의 사진 리사이클러 뷰(id/recyclerView_image)에서 사�
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.github.siyamed.shapeimageview.RoundedImageView
-        android:id="@+id/imageView_list"
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_collection_album_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:adjustViewBounds="true"
-        android:maxWidth="100dp"
-        android:maxHeight="100dp"
-        app:siBorderAlpha="0"
-        app:siRadius="12dp" />
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="8dp"
+
+        />
 </LinearLayout>

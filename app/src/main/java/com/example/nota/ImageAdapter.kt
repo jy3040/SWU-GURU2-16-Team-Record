@@ -77,7 +77,7 @@ class ImageAdapter(private val images: MutableList<Uri>) :
     }
 
     class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.imageView_list)
+        val imageView: ImageView = itemView.findViewById(R.id.iv_collection_album_image)
     }
 
     class ButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

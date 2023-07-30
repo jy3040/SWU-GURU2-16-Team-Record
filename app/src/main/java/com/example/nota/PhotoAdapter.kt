@@ -10,7 +10,7 @@ class PhotoAdapter(private val photoUrls: List<String>) :
     RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.image_collection_album, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.image_grid_list, parent, false)
         return PhotoViewHolder(view)
     }
 

@@ -5,13 +5,14 @@
     android:layout_marginVertical="16dp"
     android:layout_marginHorizontal="12dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/iv_collection_album_image"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:adjustViewBounds="true"
-        app:riv_corner_radius="8dp"
         android:scaleType="centerCrop"
+        app:riv_corner_radius="8dp"
 
         />
 </LinearLayout>
