@@ -72,7 +72,7 @@ class fragment_wishes : Fragment() {
                                 val content = document.getString("content") ?: ""
 
                                 // CollectionData 객체를 생성하여 리스트에 추가
-                                collectionList.add(WishData(category, content, title))
+                                collectionList.add(WishData(email, category, content, title))
                             }
 
                             // 어댑터를 생성하고 리사이클러뷰에 연결

@@ -4,10 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatRatingBar
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -20,8 +24,12 @@ class CollectionDetailActivity : AppCompatActivity() {
     lateinit var tv_collection_detail_date:TextView
     lateinit var rb_collection_detail:AppCompatRatingBar
     lateinit var tv_collection_detail_record:TextView
-    lateinit var tv_collection_detail_opt1_title:TextView
-    lateinit var tv_collection_detail_opt1_detail:TextView
+    lateinit var tv_collection_detail_opt1_title1:TextView
+    lateinit var tv_collection_detail_opt1_detail1:TextView
+    lateinit var tv_collection_detail_opt1_title2:TextView
+    lateinit var tv_collection_detail_opt1_detail2:TextView
+    lateinit var tv_collection_detail_opt1_title3:TextView
+    lateinit var tv_collection_detail_opt1_detail3:TextView
     lateinit var rv_collections_list:RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,9 +41,17 @@ class CollectionDetailActivity : AppCompatActivity() {
         tv_collection_detail_date = findViewById(R.id.tv_collection_detail_date)
         rb_collection_detail = findViewById(R.id.rb_collection_detail)
         tv_collection_detail_record = findViewById(R.id.tv_collection_detail_record)
-        tv_collection_detail_opt1_title = findViewById(R.id.tv_collection_detail_opt1_title)
-        tv_collection_detail_opt1_detail = findViewById(R.id.tv_collection_detail_opt1_detail)
+        tv_collection_detail_opt1_title1 = findViewById(R.id.tv_collection_detail_opt1_title1)
+        tv_collection_detail_opt1_detail1 = findViewById(R.id.tv_collection_detail_opt1_detail1)
+        tv_collection_detail_opt1_title2 = findViewById(R.id.tv_collection_detail_opt1_title2)
+        tv_collection_detail_opt1_detail2 = findViewById(R.id.tv_collection_detail_opt1_detail2)
+        tv_collection_detail_opt1_title3 = findViewById(R.id.tv_collection_detail_opt1_title3)
+        tv_collection_detail_opt1_detail3 = findViewById(R.id.tv_collection_detail_opt1_detail3)
         rv_collections_list = findViewById(R.id.rv_collections_list)
+
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.tb_collection_detail)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
 
         val collectionData = intent.getSerializableExtra("collectionData") as? CollectionData
@@ -48,11 +64,25 @@ class CollectionDetailActivity : AppCompatActivity() {
             rb_collection_detail.rating = collectionData.rating.toFloat()
             tv_collection_detail_record.text = collectionData.content
             if(collectionData.optiontitle !=null) {
-                tv_collection_detail_opt1_title.text = collectionData.optiontitle
-                tv_collection_detail_opt1_detail.text = collectionData.optioncontent
+                tv_collection_detail_opt1_title1.text = collectionData.optiontitle
+                tv_collection_detail_opt1_detail1.text = collectionData.optioncontent
             }else{
-                tv_collection_detail_opt1_title.visibility = View.GONE
-                tv_collection_detail_opt1_detail.visibility = View.GONE
+                tv_collection_detail_opt1_title1.visibility = View.GONE
+                tv_collection_detail_opt1_detail1.visibility = View.GONE
+            }
+            if(collectionData.optiontitle2 !=null) {
+                tv_collection_detail_opt1_title2.text = collectionData.optiontitle2
+                tv_collection_detail_opt1_detail2.text = collectionData.optioncontent2
+            }else{
+                tv_collection_detail_opt1_title2.visibility = View.GONE
+                tv_collection_detail_opt1_detail2.visibility = View.GONE
+            }
+            if(collectionData.optiontitle3 !=null) {
+                tv_collection_detail_opt1_title3.text = collectionData.optiontitle3
+                tv_collection_detail_opt1_detail3.text = collectionData.optioncontent3
+            }else{
+                tv_collection_detail_opt1_title3.visibility = View.GONE
+                tv_collection_detail_opt1_detail3.visibility = View.GONE
             }
             var Count = collectionData.imageUrls.size
             var email = collectionData.email
@@ -62,6 +92,47 @@ class CollectionDetailActivity : AppCompatActivity() {
 
         } else {
             // 데이터가 null인 경우에 대한 처리
+        }
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.toolbar_collection, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val collectionData = intent.getSerializableExtra("collectionData") as? CollectionData
+        return when (item.itemId) {
+            R.id.action_edit -> {
+                // "수정하기" 메뉴 클릭 시 처리할 로직 작성
+                // 예를 들어 수정 화면으로 이동하는 등의 동작 수행
+                val intent = Intent(this, WriteCollectionActivity::class.java)
+                intent.putExtra("collectionData",collectionData)
+                startActivity(intent)
+                true
+            }
+            R.id.action_delete -> {
+                // "삭제하기" 메뉴 클릭 시 처리할 로직 작성
+                // 예를 들어 데이터 삭제 등의 동작 수행
+                val db = FirebaseFirestore.getInstance()
+                val email = collectionData?.email
+                val title = collectionData?.title
+                val documentPath = "$email"+"_collection/$title"
+
+                db.document(documentPath)
+                    .delete()
+                    .addOnSuccessListener {
+                        Toast.makeText(this, "데이터 삭제 성공", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(this, "데이터 삭제 실패", Toast.LENGTH_SHORT).show()
+                    }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }
