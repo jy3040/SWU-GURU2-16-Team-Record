@@ -66,6 +66,15 @@ class WriteCollectionActivity : AppCompatActivity() {
         var editText_optionTitle3 = findViewById<EditText>(R.id.editText_optionTitle3)
         var editText_optionContent3 = findViewById<EditText>(R.id.editText_optionContent3)
 
+        //
+        val auth =FirebaseAuth.getInstance()
+        val fbFirestore =FirebaseFirestore.getInstance()
+        val uid = auth.uid
+
+        val collectionRef = fbFirestore?.collection("user")?.document("$uid")
+        var email:String
+
+
         linearLayout9 = findViewById(R.id.linearLayout9)
         linearLayout10 = findViewById(R.id.linearLayout10)
         linearLayout11 = findViewById(R.id.linearLayout11)
@@ -105,10 +114,14 @@ class WriteCollectionActivity : AppCompatActivity() {
         }
         // 버튼 클릭 시에 데이터베이스에 저장
         button_enter.setOnClickListener {
+            collectionRef?.get()
+                ?.addOnSuccessListener { documentSnapshot ->
+                    if (documentSnapshot.exists()) {
+                        email = documentSnapshot.getString("email").toString()
             val collectionTitle = editText_collectionTitle.text.toString()
             if (collectionTitle.isNotEmpty()) {
                 // 파이어스토어에서 입력한 문서 이름이 있는지 확인합니다.
-                db.collection("Collection")
+                db.collection("$email" + "_collection")
                     .document(collectionTitle)
                     .get()
                     .addOnCompleteListener { task ->
@@ -125,7 +138,6 @@ class WriteCollectionActivity : AppCompatActivity() {
                                 val imageUrls = imageAdapter.getImageUrls()
                                 // EditText에서 문자열을 가져와 hashMap으로 만듦
                                 val data = hashMapOf(
-
                                     "category" to selectedCategory,
                                     "title" to collectionTitle,
                                     "content" to editText_content.text.toString(),
@@ -143,15 +155,17 @@ class WriteCollectionActivity : AppCompatActivity() {
                                 )
                                 if (selectedCategory == "카테고리를 선택하십시오") {
                                     // 경고 창을 띄웁니다.
-                                    Toast.makeText(this, "유효한 카테고리를 선택하십시오.", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this, "유효한 카테고리를 선택하십시오.", Toast.LENGTH_SHORT)
+                                        .show()
                                 } else {
                                     // Contacts 컬렉션에 data를 collectionTitle이름으로 저장
-                                    db.collection("Collection")
+                                    db.collection("$email" + "_collection")
                                         .document(collectionTitle)
                                         .set(data)
                                         .addOnSuccessListener {
                                             // 성공할 경우
-                                            Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT)
+                                                .show()
                                             finish()
                                         }
                                         .addOnFailureListener { exception ->
@@ -165,6 +179,8 @@ class WriteCollectionActivity : AppCompatActivity() {
                                 }
                             }
                         }
+                    }
+            }
                     }
             }
         }
