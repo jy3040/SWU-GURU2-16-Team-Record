@@ -40,6 +40,8 @@ class fragment_setting: Fragment() {
         val profileImage = view.findViewById<ImageView>(R.id.profileImage)
         val myPage_name = view.findViewById<TextView>(R.id.myPage_name)
         val button_setprofile = view.findViewById<Button>(R.id.button_setprofile)
+        val collection_num = view.findViewById<TextView>(R.id.collection_num)
+        val wishes_num = view.findViewById<TextView>(R.id.wishes_num)
 
         button_setprofile.setOnClickListener{
             val intent = Intent(requireContext(), FixActivity::class.java)
@@ -51,6 +53,31 @@ class fragment_setting: Fragment() {
         val uid = auth?.uid
 
         val collectionRef = db.collection("user").document("$uid")
+        collectionRef?.get()
+            ?.addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists()) {
+                    val email = documentSnapshot.getString("email").toString()
+                    val ncRef = db.collection("$email" + "_collection")
+
+                    ncRef.get()
+                        .addOnSuccessListener { querySnapshot ->
+                            val collectionCount = querySnapshot.size()
+                            collection_num.text=collectionCount.toString()
+                        }
+                        .addOnFailureListener { exception ->
+                            // 실패 시 동작할 코드를 작성합니다.
+                        }
+                    val nwRef = db.collection("$email"+"_wish")
+                    nwRef.get()
+                        .addOnSuccessListener { querySnapshot ->
+                            val wishCount = querySnapshot.size()
+                            wishes_num.text=wishCount.toString()
+                        }
+                        .addOnFailureListener { exception ->
+
+                        }
+                }
+            }
 
         collectionRef.get()
             .addOnSuccessListener { documentSnapshot ->
