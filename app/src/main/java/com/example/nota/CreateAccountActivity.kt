@@ -94,7 +94,6 @@ class CreateAccountActivity : AppCompatActivity() {
 
             var userInfo = User()
 
-            userInfo.uid = auth?.uid
             userInfo.email = email
             userInfo.name = name
             userInfo. password = password
