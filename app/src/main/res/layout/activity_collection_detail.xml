@@ -11,7 +11,21 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
-        tools:ignore="MissingConstraints"/>
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/btn_collection_back"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            tools:ignore="SpeakableTextPresentCheck"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="onBackButtonClicked"/>
+
+    </androidx.appcompat.widget.Toolbar>
 
 
     <ScrollView
@@ -82,27 +96,83 @@
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp"
+                    >
 
                     <TextView
-                        android:id="@+id/tv_collection_detail_opt1_title"
+                        android:id="@+id/tv_collection_detail_opt1_title1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingVertical="4dp"
                         android:textSize="12dp"
                         android:textColor="@color/gray_2"
-                        android:layout_marginVertical="12dp"
                         android:text="옵션명"/>
 
                     <TextView
-                        android:id="@+id/tv_collection_detail_opt1_detail"
+                        android:id="@+id/tv_collection_detail_opt1_detail1"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:paddingVertical="4dp"
                         android:layout_marginLeft="32dp"
                         android:textSize="12dp"
                         android:textColor="@color/black"
-                        android:layout_marginVertical="12dp"
+                        android:text="내용"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_collection_detail_opt1_title2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="4dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/gray_2"
+                        android:text="옵션명"/>
+
+                    <TextView
+                        android:id="@+id/tv_collection_detail_opt1_detail2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="4dp"
+                        android:layout_marginLeft="32dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/black"
+                        android:text="내용"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/tv_collection_detail_opt1_title3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="4dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/gray_2"
+                        android:text="옵션명"/>
+
+                    <TextView
+                        android:id="@+id/tv_collection_detail_opt1_detail3"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="4dp"
+                        android:layout_marginLeft="32dp"
+                        android:textSize="12dp"
+                        android:textColor="@color/black"
                         android:text="내용"/>
 
                 </LinearLayout>

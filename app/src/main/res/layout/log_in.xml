@@ -20,51 +20,51 @@ button_logIn : 완료 버튼
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:id="@+id/linearLayout7">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tb_activity_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        tools:ignore="MissingConstraints"
-        tools:layout_conversion_absoluteHeight="56dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_conversion_absoluteWidth="196dp">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/linearLayout8"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/tb_activity_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="2dp">
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            tools:ignore="MissingConstraints"
+            tools:layout_conversion_absoluteHeight="56dp"
+            tools:layout_editor_absoluteY="0dp"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_conversion_absoluteWidth="196dp">
 
-            <Button
-                android:id="@+id/button_back"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                tools:ignore="SpeakableTextPresentCheck"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/ic_arrow_back"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:onClick="onBackButtonClicked"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/linearLayout8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="2dp">
 
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="회원가입"
-                android:textColor="@color/black"
-                android:textSize="24dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/button_back"
-                app:layout_constraintTop_toTopOf="parent" />
+                <Button
+                    android:id="@+id/button_back"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    tools:ignore="SpeakableTextPresentCheck"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/ic_arrow_back"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:onClick="onBackButtonClicked"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.appcompat.widget.Toolbar>
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="회원가입"
+                    android:textColor="@color/black"
+                    android:textSize="24dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/button_back"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:id="@+id/scrollView3"
@@ -266,4 +266,3 @@ button_logIn : 완료 버튼
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </LinearLayout>
-
