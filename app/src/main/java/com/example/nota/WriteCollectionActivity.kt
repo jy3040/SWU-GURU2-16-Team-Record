@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import java.io.FileOutputStream
 
 class WriteCollectionActivity : AppCompatActivity() {
     private lateinit var imageAdapter: ImageAdapter
@@ -136,6 +137,12 @@ class WriteCollectionActivity : AppCompatActivity() {
                                 ).show()
                             } else {
                                 val imageUrls = imageAdapter.getImageUrls()
+                                val imageUrl: MutableList<Uri> = mutableListOf()
+                                var i = 0
+                                for(url in imageUrls){
+                                    imageUrl.add(Uri.parse(url))
+                                }
+                                uploadImagesAndGetUrls(imageUrl, collectionTitle)
                                 // EditText에서 문자열을 가져와 hashMap으로 만듦
                                 val data = hashMapOf(
                                     "category" to selectedCategory,
@@ -256,6 +263,33 @@ class WriteCollectionActivity : AppCompatActivity() {
 
     fun onBackButtonClicked(view: View) {
         finish()
+    }
+    private fun uploadImagesAndGetUrls(imageUrls: List<Uri>, collectionTitle: String) {
+        val storage = FirebaseStorage.getInstance()
+
+        val email = FirebaseAuth.getInstance().currentUser?.email
+
+        val imageUrlsList = mutableListOf<String>()
+
+        var num = 0
+        for (i in imageUrls) {
+            val imgFileName = "$num.jpg"
+            val imageRef = storage.reference.child("$email").child("$collectionTitle").child("$imgFileName")
+            num++
+
+            imageRef.putFile(i)
+                .addOnSuccessListener {
+                    // 이미지 업로드 성공 시 이미지 URL을 받아옴
+                    imageRef.downloadUrl.addOnSuccessListener { uri ->
+                        imageUrlsList.add(uri.toString())
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // 이미지 업로드 실패 시 동작할 코드
+                    // 실패한 경우는 이미지를 더 업로드하지 않고 종료
+                    Toast.makeText(this, "이미지 업로드에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                }
+        }
     }
 
 }

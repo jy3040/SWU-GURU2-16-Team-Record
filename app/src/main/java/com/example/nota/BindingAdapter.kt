@@ -20,4 +20,17 @@ object BindingAdapter {
                 .into(imageView)
         }
     }
+    fun loadImage(imageView: ImageView, title: String, email: String){
+        val storage: FirebaseStorage = FirebaseStorage.getInstance("gs://nota-89a90.appspot.com")
+        val storageReference = storage.reference
+        val pathReference = storageReference.child("$email").child("$title").child("0.jpg")
+
+        pathReference.downloadUrl.addOnSuccessListener { uri ->
+            Glide.with(imageView.context)
+                .load(uri)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .centerCrop()
+                .into(imageView)
+        }
+    }
 }

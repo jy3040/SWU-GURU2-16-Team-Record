@@ -83,7 +83,7 @@ class fragment_collections : Fragment() {
                                 val optiontitle3 = document.getString("optiontitle3") ?: ""
 
                                 // CollectionData 객체를 생성하여 리스트에 추가
-                                collectionList.add(CollectionData(imageUrls, title, rating))
+                                collectionList.add(CollectionData(email, title, rating))
                             }
 
                             // 어댑터를 생성하고 리사이클러뷰에 연결
