@@ -43,7 +43,7 @@ class fragment_setting: Fragment() {
         val button_setprofile = view.findViewById<Button>(R.id.button_setprofile)
         val collection_num = view.findViewById<TextView>(R.id.collection_num)
         val wishes_num = view.findViewById<TextView>(R.id.wishes_num)
-        val switch_alarm = view.findViewById<Switch>(R.id.switch_alarm)
+
 
         button_setprofile.setOnClickListener{
             val intent = Intent(requireContext(), FixActivity::class.java)
