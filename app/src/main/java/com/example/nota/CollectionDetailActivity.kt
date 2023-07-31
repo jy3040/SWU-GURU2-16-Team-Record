@@ -15,6 +15,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import org.w3c.dom.Text
 
 class CollectionDetailActivity : AppCompatActivity() {
@@ -116,6 +117,7 @@ class CollectionDetailActivity : AppCompatActivity() {
                 val db = FirebaseFirestore.getInstance()
                 val email = collectionData?.email
                 val title = collectionData?.title
+                val Count = collectionData?.imageUrls?.size
                 val documentPath = "$email"+"_collection/$title"
 
                 db.document(documentPath)
@@ -128,6 +130,44 @@ class CollectionDetailActivity : AppCompatActivity() {
                     .addOnFailureListener { e ->
                         Toast.makeText(this, "데이터 삭제 실패", Toast.LENGTH_SHORT).show()
                     }
+                val storage = FirebaseStorage.getInstance("gs://nota-89a90.appspot.com")
+                var i = 0
+                val totalDeletes = Count!!.toInt()
+
+                fun deletePhoto(i: Int) {
+                    val storageReference = storage.reference
+                    val photoRef = storageReference.child("$email").child("$title").child("$i.jpg")
+
+                    photoRef.delete()
+                        .addOnSuccessListener {
+                            // 삭제 성공
+                            // 원하는 동작을 수행하도록 작성합니다.
+
+                            // 다음 사진 삭제를 수행합니다.
+                            val nextIndex = i + 1
+                            if (nextIndex < totalDeletes) {
+                                deletePhoto(nextIndex)
+                            } else {
+                                // 모든 사진 삭제 완료
+                            }
+                        }
+                        .addOnFailureListener {
+                            // 삭제 실패
+                            // 오류 처리를 수행하도록 작성합니다.
+
+                            // 다음 사진 삭제를 수행합니다.
+                            val nextIndex = i + 1
+                            if (nextIndex < totalDeletes) {
+                                deletePhoto(nextIndex)
+                            } else {
+                                // 모든 사진 삭제 완료
+                            }
+                        }
+                }
+
+// 첫 번째 사진 삭제를 시작합니다.
+                deletePhoto(i)
+
                 true
             }
             else -> super.onOptionsItemSelected(item)

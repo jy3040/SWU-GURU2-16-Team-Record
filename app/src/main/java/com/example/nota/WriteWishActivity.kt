@@ -1,5 +1,6 @@
 package com.example.nota
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -115,6 +116,8 @@ class WriteWishActivity : AppCompatActivity() {
                                                             Toast.LENGTH_SHORT
                                                         )
                                                             .show()
+                                                        var intent = Intent(this, MainActivity::class.java)
+                                                        startActivity(intent)
                                                         finish()
                                                     }
                                                     .addOnFailureListener { exception ->
