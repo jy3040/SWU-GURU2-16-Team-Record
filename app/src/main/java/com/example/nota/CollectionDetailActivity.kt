@@ -173,4 +173,7 @@ class CollectionDetailActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+    fun onBackButtonClicked(view: View) {
+        finish()
+    }
 }

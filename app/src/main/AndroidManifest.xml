@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Nota"
         tools:targetApi="31">
         <activity
+            android:name=".ModifyWishActivity"
+            android:exported="false" />
+        <activity
             android:name=".ModifyCollectionActivity"
             android:exported="false" />
         <activity

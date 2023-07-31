@@ -94,7 +94,8 @@ class WriteWishActivity : AppCompatActivity() {
                                             val data = hashMapOf(
                                                 "category" to selectedCategory,
                                                 "title" to collectionTitle,
-                                                "content" to editText_content.text.toString()
+                                                "content" to editText_content.text.toString(),
+                                                "checked" to false
                                             )
                                             if (selectedCategory == "카테고리를 선택하십시오") {
                                                 // 경고 창을 띄웁니다.
