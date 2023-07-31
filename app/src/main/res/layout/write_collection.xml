@@ -54,8 +54,8 @@ button_enter : 작성 완료 버튼
 
                 <Button
                     android:id="@+id/button_back"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     tools:ignore="SpeakableTextPresentCheck"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/ic_arrow_back"
@@ -100,7 +100,8 @@ button_enter : 작성 완료 버튼
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:scrollbars="none">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -385,7 +386,7 @@ button_enter : 작성 완료 버튼
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_image"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
@@ -439,7 +440,7 @@ button_enter : 작성 완료 버튼
                     android:background="@drawable/edittext_setting"
                     android:ems="10"
                     android:textColor="@color/black"
-                    android:hint="옵션명(10자 이내)9"
+                    android:hint="옵션명(10자 이내)"
                     android:inputType="text"
                     android:paddingLeft="20dp"
                     android:textColorHint="@color/gray_2"
@@ -482,7 +483,7 @@ button_enter : 작성 완료 버튼
                     android:layout_height="50dp"
                     android:background="@drawable/edittext_setting"
                     android:ems="10"
-                    android:hint="옵션명(10자 이내)10"
+                    android:hint="옵션명(10자 이내)"
                     android:inputType="text"
                     android:paddingLeft="20dp"
                     android:textColor="@color/black"
@@ -528,7 +529,7 @@ button_enter : 작성 완료 버튼
                     android:layout_height="50dp"
                     android:background="@drawable/edittext_setting"
                     android:ems="10"
-                    android:hint="옵션명(10자 이내)11"
+                    android:hint="옵션명(10자 이내)"
                     android:inputType="text"
                     android:paddingLeft="20dp"
                     android:textColorHint="@color/gray_2"
@@ -553,8 +554,6 @@ button_enter : 작성 완료 버튼
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/editText_optionTitle3" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -15,8 +15,8 @@
 
         <Button
             android:id="@+id/btn_collection_back"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             tools:ignore="SpeakableTextPresentCheck"
             android:layout_marginStart="8dp"
             android:background="@drawable/ic_arrow_back"
@@ -36,7 +36,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginBottom="36dp">
 
             <!--상단-->
             <ImageView
@@ -50,7 +51,15 @@
                 android:orientation="vertical"
                 android:layout_marginTop="32dp"
                 android:layout_marginHorizontal="24dp">
+                <TextView
+                    android:id="@+id/tv_collection_detail_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/gray_1"
+                    android:layout_marginVertical="12dp"
 
+                    android:text="카테고리"/>
                 <TextView
                     android:id="@+id/tv_collection_detail_title"
                     android:layout_width="wrap_content"
@@ -199,7 +208,7 @@
                 android:layout_height="fill_parent"
                 android:orientation="vertical"
                 android:layout_marginHorizontal="24dp"
-                android:paddingBottom="56dp">
+                android:paddingBottom="24dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -210,14 +219,14 @@
                     android:text="앨범"/>
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="16dp"
                     android:id="@+id/rv_collections_list"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="3"
-                    tools:listitem="@layout/image_collection_album" />
+                    app:spanCount="3" />
 
             </LinearLayout>
 

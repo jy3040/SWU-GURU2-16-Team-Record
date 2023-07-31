@@ -45,8 +45,8 @@ button_enter : 작성 완료 버튼
 
                 <Button
                     android:id="@+id/button_back"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     tools:ignore="SpeakableTextPresentCheck"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/ic_arrow_back"
@@ -87,7 +87,8 @@ button_enter : 작성 완료 버튼
     </androidx.constraintlayout.widget.ConstraintLayout>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout10"
             android:layout_width="match_parent"

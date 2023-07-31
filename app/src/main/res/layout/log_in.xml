@@ -40,8 +40,8 @@ button_logIn : 완료 버튼
 
                 <Button
                     android:id="@+id/button_back"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     tools:ignore="SpeakableTextPresentCheck"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/ic_arrow_back"

@@ -94,16 +94,6 @@
 
                         android:text="(0)"/>
 
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1" />
-
-                    <Spinner
-                        android:id="@+id/sp_wishes_category"
-                        android:layout_width="124dp"
-                        android:layout_height="36dp"
-                        android:background="@drawable/spinner_custom"/>
                 </LinearLayout>
 
                 <!--목록-->
@@ -112,7 +102,8 @@
                     android:layout_height="fill_parent"
                     android:id="@+id/rv_wishes_list"
                     android:orientation="vertical"
-                    tools:listitem="@layout/list_wish"/>
+                    tools:listitem="@layout/list_wish"
+                    android:layout_marginBottom="36dp"/>
                 <!--목록 끝-->
 
             </LinearLayout>

@@ -17,14 +17,12 @@
             android:layout_marginHorizontal="24dp"
             >
 
-
-
             <TextView
                 android:id="@+id/tv_home_yearMonth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:textColor="@color/black"
+                android:textColor="@color/main_1"
                 android:layout_gravity="center"
                 android:textStyle="bold"
 
