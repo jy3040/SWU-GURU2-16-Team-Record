@@ -60,29 +60,26 @@ class CollectionDetailActivity : AppCompatActivity() {
         if (collectionData != null) {
             BindingAdapter.loadImage(iv_collections_detail_thumbnail, collectionData.title, collectionData.email)
             tv_collection_detail_title.text = collectionData.title
-            tv_collection_detail_date.text=collectionData.Y.toString()+collectionData.M.toString()+collectionData.D.toString()
+            tv_collection_detail_date.text=collectionData.Y.toString()+"."+collectionData.M.toString()+"."+collectionData.D.toString()
             rb_collection_detail.rating = collectionData.rating.toFloat()
             tv_collection_detail_record.text = collectionData.content
             if(collectionData.optiontitle !=null) {
                 tv_collection_detail_opt1_title1.text = collectionData.optiontitle
                 tv_collection_detail_opt1_detail1.text = collectionData.optioncontent
-            }else{
-                tv_collection_detail_opt1_title1.visibility = View.GONE
-                tv_collection_detail_opt1_detail1.visibility = View.GONE
+                tv_collection_detail_opt1_title1.visibility = View.VISIBLE
+                tv_collection_detail_opt1_detail1.visibility = View.VISIBLE
             }
             if(collectionData.optiontitle2 !=null) {
                 tv_collection_detail_opt1_title2.text = collectionData.optiontitle2
                 tv_collection_detail_opt1_detail2.text = collectionData.optioncontent2
-            }else{
-                tv_collection_detail_opt1_title2.visibility = View.GONE
-                tv_collection_detail_opt1_detail2.visibility = View.GONE
+                tv_collection_detail_opt1_title2.visibility = View.VISIBLE
+                tv_collection_detail_opt1_detail2.visibility = View.VISIBLE
             }
             if(collectionData.optiontitle3 !=null) {
                 tv_collection_detail_opt1_title3.text = collectionData.optiontitle3
                 tv_collection_detail_opt1_detail3.text = collectionData.optioncontent3
-            }else{
-                tv_collection_detail_opt1_title3.visibility = View.GONE
-                tv_collection_detail_opt1_detail3.visibility = View.GONE
+                tv_collection_detail_opt1_title3.visibility = View.VISIBLE
+                tv_collection_detail_opt1_detail3.visibility = View.VISIBLE
             }
             var Count = collectionData.imageUrls.size
             var email = collectionData.email
@@ -107,8 +104,9 @@ class CollectionDetailActivity : AppCompatActivity() {
             R.id.action_edit -> {
                 // "수정하기" 메뉴 클릭 시 처리할 로직 작성
                 // 예를 들어 수정 화면으로 이동하는 등의 동작 수행
-                val intent = Intent(this, WriteCollectionActivity::class.java)
+                val intent = Intent(this, ModifyCollectionActivity::class.java)
                 intent.putExtra("collectionData",collectionData)
+                Toast.makeText(this, "컬렉션은 다시 설정해주세요", Toast.LENGTH_SHORT).show()
                 startActivity(intent)
                 true
             }

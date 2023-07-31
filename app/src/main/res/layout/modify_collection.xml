@@ -394,8 +394,8 @@ button_enter : 작성 완료 버튼
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_image"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="351dp"
+                android:layout_height="100dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"

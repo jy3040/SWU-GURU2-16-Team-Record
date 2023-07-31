@@ -3,11 +3,10 @@ package com.example.nota
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -16,38 +15,33 @@ import android.widget.EditText
 import android.widget.RatingBar
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import java.io.FileOutputStream
 
-class WriteCollectionActivity : AppCompatActivity() {
+class ModifyCollectionActivity : AppCompatActivity() {
     private lateinit var imageAdapter: ImageAdapter
     private lateinit var recyclerView_image: RecyclerView
 
     private var selectedCategory=""
-    private lateinit var editText_collectionTitle:EditText
+    private lateinit var editText_collectionTitle: EditText
 
     private lateinit var linearLayout9: ConstraintLayout
     private lateinit var linearLayout10: ConstraintLayout
     private lateinit var linearLayout11: ConstraintLayout
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.write_collection)
+        setContentView(R.layout.modify_collection)
 
         val spinner = findViewById<Spinner>(R.id.spinner_collectionCategory)
         val db = FirebaseFirestore.getInstance()
 
-        val button_collectionAddCategory = findViewById<Button>(R.id.button_collectionAddCategory)
-        val button_collectionAddCategory2 = findViewById<Button>(R.id.button_collectionAddCategory2)
+        val button_collectionAddCategory = findViewById<Button>(R.id.button_collectionModifyCategory)
+        val button_collectionAddCategory2 = findViewById<Button>(R.id.button_collectionModifyCategory2)
         val editText_collectionCategory = findViewById<EditText>(R.id.editText_collectionCategory)
 
         val button_enter = findViewById<Button>(R.id.button_enter)
@@ -67,14 +61,49 @@ class WriteCollectionActivity : AppCompatActivity() {
         var editText_optionTitle3 = findViewById<EditText>(R.id.editText_optionTitle3)
         var editText_optionContent3 = findViewById<EditText>(R.id.editText_optionContent3)
 
-        //
-        val auth =FirebaseAuth.getInstance()
-        val fbFirestore =FirebaseFirestore.getInstance()
+        recyclerView_image = findViewById(R.id.recyclerView_image)
+
+        //받은 데이터 입력되어있는상태
+        val collectionData = intent.getSerializableExtra("collectionData") as? CollectionData
+        if (collectionData != null) {
+
+            editText_collectionTitle.setText(collectionData.title)
+            editText_content.setText(collectionData.content)
+            ratingStar.rating = collectionData.rating.toFloat()
+            editText_YYYY.setText(collectionData.Y.toString())
+            editText_MM.setText(collectionData.M.toString())
+            editText_DD.setText(collectionData.D.toString())
+            if(collectionData.optiontitle!=null) {
+                button_collectionAddCategory2.visibility = View.VISIBLE
+                editText_collectionCategory.visibility = View.VISIBLE
+                button_collectionAddCategory.visibility = View.GONE
+                editText_optionTitle.setText(collectionData.optiontitle)
+                editText_optionContent.setText(collectionData.optioncontent)
+            }
+            if(collectionData.optiontitle2!=null) {
+                editText_optionTitle2.setText(collectionData.optiontitle2)
+                editText_optionContent2.setText(collectionData.optioncontent2)
+            }
+
+            if(collectionData.optiontitle3!=null) {
+                editText_optionTitle3.setText(collectionData.optiontitle3)
+                editText_optionContent3.setText(collectionData.optioncontent3)
+            }
+            var Count = collectionData.imageUrls.size
+            var email = collectionData.email
+            var title = collectionData.title
+            //
+
+            BindingAdapter.load(recyclerView_image, title, email, Count)
+
+        }
+
+        val auth = FirebaseAuth.getInstance()
+        val fbFirestore = FirebaseFirestore.getInstance()
         val uid = auth.uid
 
         val collectionRef = fbFirestore?.collection("user")?.document("$uid")
         var email:String
-
 
         linearLayout9 = findViewById(R.id.linearLayout9)
         linearLayout10 = findViewById(R.id.linearLayout10)
@@ -115,79 +144,53 @@ class WriteCollectionActivity : AppCompatActivity() {
         }
         // 버튼 클릭 시에 데이터베이스에 저장
         button_enter.setOnClickListener {
-            collectionRef?.get()
-                ?.addOnSuccessListener { documentSnapshot ->
-                    if (documentSnapshot.exists()) {
-                        email = documentSnapshot.getString("email").toString()
             val collectionTitle = editText_collectionTitle.text.toString()
             if (collectionTitle.isNotEmpty()) {
-                // 파이어스토어에서 입력한 문서 이름이 있는지 확인합니다.
-                db.collection("$email" + "_collection")
-                    .document(collectionTitle)
-                    .get()
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            val document = task.result
-                            if (document != null && document.exists()) {
-                                // 이미 문서 이름이 존재하는 경우
-                                Toast.makeText(
-                                    this,
-                                    "이미 존재하는 컬렉션 제목입니다. 다른 제목을 입력해주세요.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            } else {
-                                val imageUrls = imageAdapter.getImageUrls()
-                                val imageUrl: MutableList<Uri> = mutableListOf()
-                                for(url in imageUrls){
-                                    imageUrl.add(Uri.parse(url))
-                                }
-                                uploadImagesAndGetUrls(imageUrl, collectionTitle)
-                                // EditText에서 문자열을 가져와 hashMap으로 만듦
-                                val data = hashMapOf(
-                                    "category" to selectedCategory,
-                                    "title" to collectionTitle,
-                                    "content" to editText_content.text.toString(),
-                                    "rating" to ratingStar.rating,
-                                    "Y" to editText_YYYY.text.toString().toInt(),
-                                    "M" to editText_MM.text.toString().toInt(),
-                                    "D" to editText_DD.text.toString().toInt(),
-                                    "optiontitle" to editText_optionTitle.text.toString(),
-                                    "optioncontent" to editText_optionContent.text.toString(),
-                                    "optiontitle2" to editText_optionTitle2.text.toString(),
-                                    "optioncontent2" to editText_optionContent2.text.toString(),
-                                    "optiontitle3" to editText_optionTitle3.text.toString(),
-                                    "optioncontent3" to editText_optionContent3.text.toString(),
-                                    "images" to imageUrls
-                                )
-                                if (selectedCategory == "카테고리를 선택하십시오") {
-                                    // 경고 창을 띄웁니다.
-                                    Toast.makeText(this, "유효한 카테고리를 선택하십시오.", Toast.LENGTH_SHORT)
-                                        .show()
-                                } else {
-                                    // Contacts 컬렉션에 data를 collectionTitle이름으로 저장
-                                    db.collection("$email" + "_collection")
-                                        .document(collectionTitle)
-                                        .set(data)
-                                        .addOnSuccessListener {
-                                            // 성공할 경우
-                                            Toast.makeText(this, "데이터가 추가되었습니다", Toast.LENGTH_SHORT)
-                                                .show()
-                                            finish()
-                                        }
-                                        .addOnFailureListener { exception ->
-                                            // 실패할 경우
-                                            Log.w(
-                                                "WriteCollectionActivity",
-                                                "Error getting documents: $exception"
-                                            )
-                                        }
+                val imageUrls = imageAdapter.getImageUrls()
+                val imageUrl: MutableList<Uri> = mutableListOf()
+                for (url in imageUrls) {
+                    imageUrl.add(Uri.parse(url))
+                }
+                uploadImagesAndGetUrls(imageUrl, collectionTitle)
+                // EditText에서 문자열을 가져와 hashMap으로 만듦
+                val data = hashMapOf(
+                    "category" to selectedCategory,
+                    "title" to collectionTitle,
+                    "content" to editText_content.text.toString(),
+                    "rating" to ratingStar.rating,
+                    "Y" to editText_YYYY.text.toString().toInt(),
+                    "M" to editText_MM.text.toString().toInt(),
+                    "D" to editText_DD.text.toString().toInt(),
+                    "optiontitle" to editText_optionTitle.text.toString(),
+                    "optioncontent" to editText_optionContent.text.toString(),
+                    "optiontitle2" to editText_optionTitle2.text.toString(),
+                    "optioncontent2" to editText_optionContent2.text.toString(),
+                    "optiontitle3" to editText_optionTitle3.text.toString(),
+                    "optioncontent3" to editText_optionContent3.text.toString(),
+                    "images" to imageUrls
+                )
 
-                                }
-                            }
+                if (selectedCategory == "카테고리를 선택하십시오") {
+                    // 경고 창을 띄웁니다.
+                    Toast.makeText(this, "유효한 카테고리를 선택하십시오.", Toast.LENGTH_SHORT).show()
+                } else {
+                    // 기존 문서가 있는지 확인하지 않고 바로 업데이트합니다.
+                    val email = collectionData?.email
+                    val documentPath = "$email" + "_collection/$collectionTitle"
+
+                    // 문서를 업데이트합니다.
+                    db.document(documentPath)
+                        .update(data)
+                        .addOnSuccessListener {
+                            // 성공할 경우
+                            Toast.makeText(this, "데이터가 업데이트되었습니다", Toast.LENGTH_SHORT).show()
+                            finish()
                         }
-                    }
-            }
-                    }
+                        .addOnFailureListener { exception ->
+                            // 실패할 경우
+                            Log.w("WriteCollectionActivity", "Error updating document: $exception")
+                        }
+                }
             }
         }
         // 버튼 클릭을 통해 카테고리 추가 버튼 visible로
