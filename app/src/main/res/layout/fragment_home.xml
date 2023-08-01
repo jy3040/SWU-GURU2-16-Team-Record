@@ -79,17 +79,29 @@
                 android:text=" 님의 위시"/>
         </LinearLayout>
 
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="36dp"
+                android:descendantFocusability="blocksDescendants">
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_home_wishes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
-                android:layout_marginBottom="36dp"
+
                 android:orientation="vertical"
                 tools:listitem="@layout/list_wish" />
+
+            </RelativeLayout>
+
+
             <!--추천 위시 끝-->
         </LinearLayout>
-    </ScrollView>
+      </ScrollView>
     </LinearLayout>
 
     <!--플로팅 버튼-->
@@ -148,7 +160,8 @@
             android:layout_marginVertical="24dp"
             android:src="@drawable/ic_plus_white"
             app:elevation="6dp"
-            app:backgroundTint="@color/main_1"/>
+            app:backgroundTint="@color/main_1"
+            tools:ignore="SpeakableTextPresentCheck"/>
     <!--플로팅 버튼 끝-->
 
 </FrameLayout>

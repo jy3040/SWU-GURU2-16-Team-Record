@@ -64,7 +64,6 @@ class WishAdapter(private val wishList: List<WishData>) :
                             }
                             R.id.action_delete -> {
                                 // "삭제하기" 메뉴 클릭 시 처리할 로직 작성
-                                // 예를 들어 데이터 삭제 등의 동작 수행
                                 val db = FirebaseFirestore.getInstance()
                                 val email = wishData.email
                                 val title = wishData.title
@@ -85,7 +84,6 @@ class WishAdapter(private val wishList: List<WishData>) :
                             else -> false
                         }
                     }
-
                     // 팝업 메뉴를 보여줍니다.
                     popupMenu.show()
                 }
@@ -107,11 +105,9 @@ class WishAdapter(private val wishList: List<WishData>) :
                         .update("checked", isChecked)
                         .addOnSuccessListener {
                             // 업데이트 성공 시
-                            // 여기에 원하는 동작을 추가할 수 있습니다.
                         }
                         .addOnFailureListener { e ->
                             // 업데이트 실패 시
-                            // 여기에 원하는 동작을 추가할 수 있습니다.
                         }
                 }
             }
@@ -132,24 +128,33 @@ class WishAdapter(private val wishList: List<WishData>) :
                         .update("checked", true)
                         .addOnSuccessListener {
                             // 업데이트 성공 시
-                            // 여기에 원하는 동작을 추가할 수 있습니다.
                         }
                         .addOnFailureListener { e ->
                             // 업데이트 실패 시
-                            // 여기에 원하는 동작을 추가할 수 있습니다.
                         }
                     val intent = Intent(itemView.context, WriteCollectionActivity::class.java)
                     itemView.context.startActivity(intent)
                 }
                 .setNegativeButton("아니오") { dialog, _ ->
                     // User canceled, uncheck the checkbox
-                    ch_wish_finish.isChecked = false
                     dialog.dismiss()
+                    val db = FirebaseFirestore.getInstance()
+                    val email = wishData.email
+                    val title = wishData.title
+                    val documentPath = "$email" + "_wish/$title"
+
+                    // Firestore에 체크 상태 업데이트
+                    db.document(documentPath)
+                        .update("checked", true)
+                        .addOnSuccessListener {
+                            // 업데이트 성공 시
+                        }
+                        .addOnFailureListener { e ->
+                            // 업데이트 실패 시
+                        }
                 }
                 .create()
-
             alertDialog.show()
         }
     }
-
 }

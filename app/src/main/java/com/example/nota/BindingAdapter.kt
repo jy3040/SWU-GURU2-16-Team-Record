@@ -9,11 +9,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.storage.FirebaseStorage
 
 object BindingAdapter {
-    fun loadImage(imageView: ImageView, user: String){
 
+    // Firebase Storage에서 "PROFILE_" 접두사와 사용자 이름을 가진 이미지를 다운로드하여 ImageView에 로드하는 함수
+    fun loadImage(imageView: ImageView, user: String) {
         val storage: FirebaseStorage = FirebaseStorage.getInstance("gs://nota-89a90.appspot.com")
         val storageReference = storage.reference
-        val pathReference = storageReference.child("images/PROFILE_"+user+"_png")
+        val pathReference = storageReference.child("images/PROFILE_" + user + "_png")
 
         pathReference.downloadUrl.addOnSuccessListener { uri ->
             Glide.with(imageView.context)
@@ -23,7 +24,9 @@ object BindingAdapter {
                 .into(imageView)
         }
     }
-    fun loadImage(imageView: ImageView, title: String, email: String){
+
+    // Firebase Storage에서 지정된 제목과 이메일에 해당하는 이미지를 다운로드하여 ImageView에 로드하는 함수
+    fun loadImage(imageView: ImageView, title: String, email: String) {
         val storage: FirebaseStorage = FirebaseStorage.getInstance("gs://nota-89a90.appspot.com")
         val storageReference = storage.reference
         val pathReference = storageReference.child("$email").child("$title").child("0.jpg")
@@ -36,7 +39,9 @@ object BindingAdapter {
                 .into(imageView)
         }
     }
-    fun loadImage(imageView: RecyclerView, title: String, email: String,num:Int){
+
+    // Firebase Storage에서 지정된 제목과 이메일에 해당하는 여러 이미지를 다운로드하여 RecyclerView에 로드하는 함수
+    fun loadImage(imageView: RecyclerView, title: String, email: String, num: Int) {
         val storage: FirebaseStorage = FirebaseStorage.getInstance("gs://nota-89a90.appspot.com")
         val storageReference = storage.reference
 
@@ -56,7 +61,9 @@ object BindingAdapter {
             }
         }
     }
-    fun load(imageView: RecyclerView, title: String, email: String,num:Int) {
+
+    // Firebase Storage에서 지정된 제목과 이메일에 해당하는 여러 이미지를 다운로드하여 RecyclerView에 로드하는 함수
+    fun load(imageView: RecyclerView, title: String, email: String, num: Int) {
         val storage: FirebaseStorage = FirebaseStorage.getInstance("gs://nota-89a90.appspot.com")
         val storageReference = storage.reference
 
@@ -72,7 +79,6 @@ object BindingAdapter {
                 if (photoUrls.size == num) {
                     val imageAdapter = ImageAdapter(photoUrls)
                     imageView.adapter = imageAdapter
-
                 }
             }
         }

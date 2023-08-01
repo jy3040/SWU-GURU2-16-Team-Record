@@ -16,43 +16,42 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class WriteWishActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.write_wish)
 
+        // View 요소들 초기화
         val button_wishAddCategory = findViewById<Button>(R.id.button_wishAddCategory)
         val button_wishAddCategory2 = findViewById<Button>(R.id.button_wishAddCategory2)
         val editText_wishCategory = findViewById<EditText>(R.id.editText_wishCategory)
-
         val db = FirebaseFirestore.getInstance()
-
         val spinner = findViewById<Spinner>(R.id.spinner_wishCategory)
         val button_enter = findViewById<Button>(R.id.button_enter)
-        var editText_collectionTitle = findViewById<EditText>(R.id.editText_wishTitle)
-        var editText_content = findViewById<EditText>(R.id.editText_content)
+        val editText_collectionTitle = findViewById<EditText>(R.id.editText_wishTitle)
+        val editText_content = findViewById<EditText>(R.id.editText_content)
 
+        // Firebase 인스턴스 및 사용자 UID 가져오기
         val auth = FirebaseAuth.getInstance()
-        val fbFirestore =FirebaseFirestore.getInstance()
+        val fbFirestore = FirebaseFirestore.getInstance()
         val uid = auth.uid
 
+        // Firestore의 "user" 컬렉션에서 해당 사용자 문서 가져오기
         val collectionRef = fbFirestore?.collection("user")?.document("$uid")
-        var email:String
+        var email: String
 
-        var selectedCategory=""
+        // 선택된 카테고리를 저장하기 위한 변수
+        var selectedCategory = ""
 
         // 카테고리명 배열 가져오기
         val categories = resources.getStringArray(R.array.categories).toMutableList()
 
-        // 스피너 어댑터 설정
-        //val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
-        //val adapter = ArrayAdapter.createFromResource(this, R.array.categories, R.layout.spinner_textstyle)
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        //spinner.adapter = adapter
-
+        // 스피너 어댑터 설정 및 스피너에 어댑터 적용
         val spinnerAdapter = ArrayAdapter(this, R.layout.spinner_textstyle, categories)
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = spinnerAdapter
-        //카테고리 선택
+
+        // 카테고리 선택 이벤트 리스너 설정
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedItem = categories[position]
@@ -61,6 +60,7 @@ class WriteWishActivity : AppCompatActivity() {
                 // 예: 선택된 항목을 로그로 출력하거나, 변수에 저장합니다.
                 Log.d("Selected Item", selectedItem)
             }
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 // 선택이 해제되었을 때 수행할 동작을 정의합니다.
             }
@@ -68,7 +68,6 @@ class WriteWishActivity : AppCompatActivity() {
 
         // 완료 버튼을 통해 데이터베이스에 저장
         button_enter.setOnClickListener {
-            // EditText에서 문자열을 가져와 hashMap으로 만듦
             collectionRef?.get()
                 ?.addOnSuccessListener { documentSnapshot ->
                     if (documentSnapshot.exists()) {
@@ -103,8 +102,7 @@ class WriteWishActivity : AppCompatActivity() {
                                                     this,
                                                     "유효한 카테고리를 선택하십시오.",
                                                     Toast.LENGTH_SHORT
-                                                )
-                                                    .show()
+                                                ).show()
                                             } else {
                                                 db.collection("$email" + "_wish")
                                                     .document(collectionTitle)
@@ -115,8 +113,7 @@ class WriteWishActivity : AppCompatActivity() {
                                                             this,
                                                             "데이터가 추가되었습니다",
                                                             Toast.LENGTH_SHORT
-                                                        )
-                                                            .show()
+                                                        ).show()
                                                         var intent = Intent(this, MainActivity::class.java)
                                                         startActivity(intent)
                                                         finish()
@@ -143,6 +140,7 @@ class WriteWishActivity : AppCompatActivity() {
                     }
                 }
         }
+
         // 버튼 클릭을 통해 카테고리 추가 버튼 visible로
         button_wishAddCategory.setOnClickListener {
             // 다른 버튼과 텍스트뷰들을 보이도록 설정
@@ -150,35 +148,28 @@ class WriteWishActivity : AppCompatActivity() {
             editText_wishCategory.visibility = View.VISIBLE
             button_wishAddCategory.visibility = View.GONE
         }
+
+        // 새로운 카테고리 추가 버튼 클릭 리스너
         button_wishAddCategory2.setOnClickListener {
-            // 새로운 카테고리 추가 버튼이 클릭되면 호출되는 리스너
-
             val newCategory = editText_wishCategory.text.toString().trim()
-
             // 새로운 카테고리가 비어있지 않으면 추가
             if (!TextUtils.isEmpty(newCategory)) {
                 categories.add(newCategory)
-
                 // 스피너 어댑터가 아닌 직접 스피너에 카테고리 배열을 설정
                 spinnerAdapter.notifyDataSetChanged()
-
                 // 새로운 카테고리를 스피너에서 선택하도록 설정
                 spinner.setSelection(categories.size - 1)
-
                 // 에디트 텍스트 비우기
                 editText_wishCategory.text = null
             }
-
-
             // 버튼과 에디트 텍스트들을 다시 숨기도록 설정
             button_wishAddCategory2.visibility = View.GONE
             editText_wishCategory.visibility = View.GONE
             button_wishAddCategory.visibility = View.VISIBLE
-
         }
-
     }
 
+    // 뒤로 가기 버튼 클릭 시 현재 액티비티를 종료하고 이전 액티비티로 돌아가기 위한 메소드
     fun onBackButtonClicked(view: View) {
         finish()
     }

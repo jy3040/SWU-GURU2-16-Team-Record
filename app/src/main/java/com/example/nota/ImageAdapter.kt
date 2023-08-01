@@ -1,6 +1,5 @@
 package com.example.nota
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
@@ -9,8 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -51,7 +48,7 @@ class ImageAdapter(private val images: MutableList<Uri>) :
             }
             VIEW_TYPE_BUTTON -> {
                 (holder as ButtonViewHolder).button_addImage.setOnClickListener {
-                    // 버튼을 클릭했을 때, 갤러리에서 이미지를 선택하도록 WriteCollectionActivity에 알림
+                    // 버튼을 클릭했을 때, 갤러리에서 이미지를 선택하도록 알림
                     val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                     if (holder.itemView.context is AppCompatActivity) {
                         (holder.itemView.context as AppCompatActivity).startActivityForResult(intent, 1001)
@@ -78,6 +75,7 @@ class ImageAdapter(private val images: MutableList<Uri>) :
         images.add(imageUri)
         notifyItemInserted(images.size)
     }
+
     fun getImageUrls(): List<String> {
         return images.map { it.toString() }
     }
@@ -91,5 +89,3 @@ class ImageAdapter(private val images: MutableList<Uri>) :
     }
 
 }
-
-
