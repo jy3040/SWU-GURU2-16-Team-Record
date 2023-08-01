@@ -57,11 +57,12 @@ recyclerview_bestChoice : 베스트 콜렉션 리사이클러뷰 -> 리스트: b
             android:layout_height="wrap_content">
 
             <!-- https://coding-factory.tistory.com/65 -->
+
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pie_chart"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
 
 

@@ -20,7 +20,6 @@ class fragment_collections : Fragment() {
 
     private lateinit var rv_collections_list:RecyclerView
     private lateinit var CollectionAdapter:CollectionAdapter
-    private val existingCategories = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,16 +29,20 @@ class fragment_collections : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_collections, container, false)
 
         val tv_collections_title = view.findViewById<TextView>(R.id.tv_collections_title)
         val tv_collections_count = view.findViewById<TextView>(R.id.tv_collections_count)
 
+        // Firebase 인증 객체를 가져옴
         val auth = FirebaseAuth.getInstance()
+        // 현재 사용자의 UID를 가져옴
         val uid = auth.uid
+        // Firestore 데이터베이스 객체를 가져옴
         val db = FirebaseFirestore.getInstance()
+        // Firestore에서 사용자의 컬렉션 데이터를 가져올 Document 참조를 생성
         val collectionRef = db?.collection("user")?.document("$uid")
+        // 사용자 이메일을 저장할 변수를 선언
         var email:String
 
         // 리사이클러뷰 초기화
@@ -49,7 +52,10 @@ class fragment_collections : Fragment() {
         collectionRef?.get()
             ?.addOnSuccessListener { documentSnapshot ->
                 if (documentSnapshot.exists()) {
+                    // Firestore에서 사용자의 이메일을 가져옴.
                     email = documentSnapshot.getString("email").toString()
+
+                    // Firestore에서 해당 사용자의 컬렉션 데이터를 가져옴.
                     db.collection("$email" + "_collection")
                         .get()
                         .addOnSuccessListener { querySnapshot ->

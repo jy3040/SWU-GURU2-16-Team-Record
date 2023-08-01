@@ -24,12 +24,6 @@ class CollectionAdapter(private var collectionList: MutableList<CollectionData>)
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.onItemClickListener = listener
     }
-    // CollectionAdapter 클래스에 추가
-    fun updateData(newData: List<CollectionData>) {
-        collectionList.clear()
-        collectionList.addAll(newData)
-        notifyDataSetChanged()
-    }
 
 
     // View Holder 클래스
