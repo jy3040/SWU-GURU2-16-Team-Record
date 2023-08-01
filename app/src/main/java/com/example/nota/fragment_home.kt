@@ -58,11 +58,37 @@ class fragment_home: Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
+        val db = FirebaseFirestore.getInstance()
+        val auth = FirebaseAuth.getInstance()
+        val uid = auth?.uid
+        val fbFirestore = FirebaseFirestore.getInstance()
+
         //달력
         //----------------------------------------
         val monthListManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         val monthListAdapter = recyclerAdapter_calendar_ym()
 
+        val emailRef = db.collection("user").document("$uid")
+        emailRef.get().addOnSuccessListener { documentSnapshot ->
+            if(documentSnapshot.exists()){
+                val email = documentSnapshot.getString("email")
+                val emailCollectionRef = fbFirestore?.collection("$email"+"_collection")
+
+                emailCollectionRef?.get()?.addOnSuccessListener { querySnapshot ->
+                    for (document in querySnapshot) {
+                        // 날짜 정보를 가져와서 필요한 형식으로 가공하고, recyclerAdapter_calendar_ym 어댑터에 전달
+                        val Y = document.getLong("Y").toString()
+                        val M = document.getLong("M").toString()
+                        val D = document.getLong("D").toString()// 날짜 정보가 저장된 필드명으로 변경해야 함
+                        monthListAdapter.addDate(Y,M,D)
+                    }
+                    // 데이터가 변경되었음을 어댑터에 알림
+                    monthListAdapter.notifyDataSetChanged()
+                }?.addOnFailureListener { exception ->
+                    // 데이터를 가져오는 과정에서 오류가 발생한 경우에 대한 처리
+                }
+            }
+        }
         val calendar_custom=view.findViewById<RecyclerView>(R.id.rv_home_calendar)
 
         calendar_custom.apply {
@@ -72,12 +98,10 @@ class fragment_home: Fragment() {
         }
         val snap = PagerSnapHelper()
         snap.attachToRecyclerView(calendar_custom)
+
         //----------------------------------------
 
         val tv_home_user = view.findViewById<TextView>(R.id.tv_home_user)
-        val db = FirebaseFirestore.getInstance()
-        val auth = FirebaseAuth.getInstance()
-        val uid = auth?.uid
 
         val collectionRef = db.collection("user").document("$uid")
 
