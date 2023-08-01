@@ -143,8 +143,23 @@ class WishAdapter(private val wishList: List<WishData>) :
                 }
                 .setNegativeButton("아니오") { dialog, _ ->
                     // User canceled, uncheck the checkbox
-                    ch_wish_finish.isChecked = false
                     dialog.dismiss()
+                    val db = FirebaseFirestore.getInstance()
+                    val email = wishData.email
+                    val title = wishData.title
+                    val documentPath = "$email" + "_wish/$title"
+
+                    // Firestore에 체크 상태 업데이트
+                    db.document(documentPath)
+                        .update("checked", true)
+                        .addOnSuccessListener {
+                            // 업데이트 성공 시
+                            // 여기에 원하는 동작을 추가할 수 있습니다.
+                        }
+                        .addOnFailureListener { e ->
+                            // 업데이트 실패 시
+                            // 여기에 원하는 동작을 추가할 수 있습니다.
+                        }
                 }
                 .create()
 
