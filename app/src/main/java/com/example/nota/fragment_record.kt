@@ -8,22 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.databinding.DataBindingUtil.setContentView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [fragment_record.newInstance] factory method to
- * create an instance of this fragment.
- */
 class fragment_record : Fragment() {
     //탭바 화면 이동 구현
     private lateinit var viewPager_record: ViewPager2
@@ -35,6 +23,7 @@ class fragment_record : Fragment() {
     private lateinit var fb_record_floating_w: FloatingActionButton
     private lateinit var tv_record_floating_w: TextView
 
+    // 플로팅 액션 버튼 및 텍스트뷰를 보여줄지 여부를 나타내는 변수
     var isRunning:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,10 +34,10 @@ class fragment_record : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        // 화면을 구성하는 뷰를 인플레이트합니다.
         val view= inflater.inflate(R.layout.fragment_record, container, false)
 
-        //----------------------------------------------
+        // 플로팅 액션 버튼과 관련된 뷰들을 초기화합니다.
         fb_record_floating = view.findViewById(R.id.fb_record_floating)
         fb_record_floating_c = view.findViewById(R.id.fb_record_floating_c)
         tv_record_floating_c = view.findViewById(R.id.tv_record_floating_c)
@@ -79,18 +68,15 @@ class fragment_record : Fragment() {
             val intent = Intent(requireContext(), WriteWishActivity::class.java)
             startActivity(intent)
         }
-    //탭바 화면 이동 구현
-    //-------------------------------------------------------
+        //탭바 화면 이동 구현
+        //-------------------------------------------------------
         viewPager_record = view.findViewById(R.id.vp_record)
         tabLayout_record = view.findViewById(R.id.tl_record)
         return view
-
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
 
         val mainActivityView = (activity as MainActivity)
         val viewPagerAdapter = tabAdapter_record(mainActivityView)
@@ -102,12 +88,12 @@ class fragment_record : Fragment() {
         // adapter 연결
         viewPager_record?.adapter = viewPagerAdapter
         viewPager_record?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 Log.e("ViewPagerFragment", "Page ${position + 1}")
             }
         })
+
         // 뷰페이저와 탭레이아웃을 붙임
         TabLayoutMediator(tabLayout_record, viewPager_record) { tab, position ->
             when (position) {
@@ -116,28 +102,5 @@ class fragment_record : Fragment() {
                 else -> tab.text = "Tab ${position + 1}"
             }
         }.attach()
-
-
-    }
-    //-------------------------------------------------------
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment fragment_record.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            fragment_record().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }

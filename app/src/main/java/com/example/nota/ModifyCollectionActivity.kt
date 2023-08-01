@@ -174,10 +174,8 @@ class ModifyCollectionActivity : AppCompatActivity() {
                     "optioncontent3" to editText_optionContent3.text.toString(),
                     "images" to images+selectedImageUris.map { it.toString() } // 이미지 URL 리스트를 저장
                 )
-
                 // Firestore에 데이터 저장
                 saveDataToFirestore(data)
-
             }
         }
         // 버튼 클릭을 통해 카테고리 추가 버튼 visible로
@@ -205,16 +203,11 @@ class ModifyCollectionActivity : AppCompatActivity() {
                 // 에디트 텍스트 비우기
                 editText_collectionCategory.text = null
             }
-
-
             // 버튼과 에디트 텍스트들을 다시 숨기도록 설정
             button_collectionAddCategory2.visibility = View.GONE
             editText_collectionCategory.visibility = View.GONE
             button_collectionAddCategory.visibility = View.VISIBLE
-
         }
-
-
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -260,7 +253,6 @@ class ModifyCollectionActivity : AppCompatActivity() {
 
         // 기존 이미지의 URL을 가져옴
         val collectionData = intent.getSerializableExtra("collectionData") as? CollectionData
-        val existingImageUrls = collectionData?.imageUrls ?: mutableListOf()
 
         val imageUrlsList = mutableListOf<String>()
 
@@ -315,6 +307,4 @@ class ModifyCollectionActivity : AppCompatActivity() {
             Toast.makeText(this, "데이터 업데이트 중 오류가 발생했습니다", Toast.LENGTH_SHORT).show()
         }
     }
-
-
 }

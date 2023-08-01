@@ -9,15 +9,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.nota.BindingAdapter.loadImage
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.ktx.Firebase
 import java.io.BufferedInputStream
 import java.io.IOException
 import java.io.InputStream
@@ -28,7 +25,6 @@ class fragment_setting: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -38,22 +34,26 @@ class fragment_setting: Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.setting, container, false)
 
+        // 뷰들을 초기화합니다.
         val profileImage = view.findViewById<ImageView>(R.id.profileImage)
         val myPage_name = view.findViewById<TextView>(R.id.myPage_name)
         val button_setprofile = view.findViewById<Button>(R.id.button_setprofile)
         val collection_num = view.findViewById<TextView>(R.id.collection_num)
         val wishes_num = view.findViewById<TextView>(R.id.wishes_num)
+        val logoutButton = view.findViewById<Button>(R.id.button_logout)
 
-
-        button_setprofile.setOnClickListener{
+        // "프로필 설정" 버튼 클릭 이벤트 처리
+        button_setprofile.setOnClickListener {
             val intent = Intent(requireContext(), FixActivity::class.java)
             startActivity(intent)
         }
 
+        // Firebase 인스턴스를 가져옵니다.
         val db = FirebaseFirestore.getInstance()
         val auth = FirebaseAuth.getInstance()
         val uid = auth?.uid
 
+        // 사용자 정보를 가져와서 이름과 이메일을 표시합니다.
         val collectionRef = db.collection("user").document("$uid")
         collectionRef?.get()
             ?.addOnSuccessListener { documentSnapshot ->
@@ -61,22 +61,25 @@ class fragment_setting: Fragment() {
                     val email = documentSnapshot.getString("email").toString()
                     val ncRef = db.collection("$email" + "_collection")
 
+                    // 컬렉션 수를 가져와서 화면에 표시합니다.
                     ncRef.get()
                         .addOnSuccessListener { querySnapshot ->
                             val collectionCount = querySnapshot.size()
-                            collection_num.text=collectionCount.toString()
+                            collection_num.text = collectionCount.toString()
                         }
                         .addOnFailureListener { exception ->
                             // 실패 시 동작할 코드를 작성합니다.
                         }
+
+                    // 위시 수를 가져와서 화면에 표시합니다.
                     val nwRef = db.collection("$email"+"_wish")
                     nwRef.get()
                         .addOnSuccessListener { querySnapshot ->
                             val wishCount = querySnapshot.size()
-                            wishes_num.text=wishCount.toString()
+                            wishes_num.text = wishCount.toString()
                         }
                         .addOnFailureListener { exception ->
-
+                            // 실패 시 동작할 코드를 작성합니다.
                         }
                 }
             }
@@ -88,8 +91,8 @@ class fragment_setting: Fragment() {
                     val email = documentSnapshot.getString("email")
                     myPage_name.text = name
 
-                    // 이미지를 직접 가져와서 profileImage에 설정
-                    loadImage(profileImage,email.toString())
+                    // 프로필 이미지를 가져와서 profileImage에 설정합니다.
+                    loadImage(profileImage, email.toString())
                 } else {
                     // 문서가 존재하지 않을 경우에 대한 처리
                     Toast.makeText(requireContext(), "해당 사용자 정보가 없습니다.", Toast.LENGTH_SHORT).show()
@@ -100,12 +103,14 @@ class fragment_setting: Fragment() {
                 Toast.makeText(requireContext(), "데이터 가져오기 실패: ${exception.message}", Toast.LENGTH_SHORT).show()
             }
 
-        val logoutButton = view.findViewById<Button>(R.id.button_logout)
+        // "로그아웃" 버튼 클릭 이벤트 처리
         logoutButton.setOnClickListener {
             logoutUser()
         }
         return view
     }
+
+    // 프로필 이미지를 URL에서 가져오는 함수
     private fun getBitmapFromURL(src: String): Bitmap? {
         var inputStream: InputStream? = null
         try {
@@ -123,8 +128,9 @@ class fragment_setting: Fragment() {
             inputStream?.close()
         }
     }
-    private fun logoutUser() {
 
+    // 사용자 로그아웃 처리 함수
+    private fun logoutUser() {
         // 자동 로그인 설정에서 로그인 정보 삭제
         val sharedPreferences = requireContext().getSharedPreferences("login_status", 0)
         val editor = sharedPreferences.edit()
@@ -136,5 +142,4 @@ class fragment_setting: Fragment() {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
     }
-
 }
