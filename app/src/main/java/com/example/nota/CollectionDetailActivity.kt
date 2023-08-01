@@ -37,6 +37,8 @@ class CollectionDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_collection_detail)
 
+        var tv_collection_detail_category = findViewById<TextView>(R.id.tv_collection_detail_category)
+
         iv_collections_detail_thumbnail = findViewById(R.id.iv_collections_detail_thumbnail)
         tv_collection_detail_title =findViewById(R.id.tv_collection_detail_title)
         tv_collection_detail_date = findViewById(R.id.tv_collection_detail_date)
@@ -60,6 +62,7 @@ class CollectionDetailActivity : AppCompatActivity() {
         // 데이터가 null이 아니면 해당 데이터를 사용하여 UI 업데이트 등을 수행
         if (collectionData != null) {
             BindingAdapter.loadImage(iv_collections_detail_thumbnail, collectionData.title, collectionData.email)
+            tv_collection_detail_category.text = collectionData.category
             tv_collection_detail_title.text = collectionData.title
             tv_collection_detail_date.text=collectionData.Y.toString()+"."+collectionData.M.toString()+"."+collectionData.D.toString()
             rb_collection_detail.rating = collectionData.rating.toFloat()

@@ -14,6 +14,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RatingBar
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
@@ -32,6 +33,9 @@ class ModifyCollectionActivity : AppCompatActivity() {
     private lateinit var linearLayout9: ConstraintLayout
     private lateinit var linearLayout10: ConstraintLayout
     private lateinit var linearLayout11: ConstraintLayout
+
+    private var Image_num: Int = 0
+    private val selectedImageUris = mutableListOf<Uri>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -97,6 +101,8 @@ class ModifyCollectionActivity : AppCompatActivity() {
             BindingAdapter.load(recyclerView_image, title, email, Count)
 
         }
+        Image_num = collectionData!!.imageUrls.size
+        val images = collectionData.imageUrls
 
         val auth = FirebaseAuth.getInstance()
         val fbFirestore = FirebaseFirestore.getInstance()
@@ -152,10 +158,9 @@ class ModifyCollectionActivity : AppCompatActivity() {
                     imageUrl.add(Uri.parse(url))
                 }
                 uploadImagesAndGetUrls(imageUrl, collectionTitle)
-                // EditText에서 문자열을 가져와 hashMap으로 만듦
                 val data = hashMapOf(
                     "category" to selectedCategory,
-                    "title" to collectionTitle,
+                    "title" to editText_collectionTitle.text.toString(),
                     "content" to editText_content.text.toString(),
                     "rating" to ratingStar.rating,
                     "Y" to editText_YYYY.text.toString().toInt(),
@@ -167,32 +172,12 @@ class ModifyCollectionActivity : AppCompatActivity() {
                     "optioncontent2" to editText_optionContent2.text.toString(),
                     "optiontitle3" to editText_optionTitle3.text.toString(),
                     "optioncontent3" to editText_optionContent3.text.toString(),
-                    "images" to imageUrls
+                    "images" to images+selectedImageUris.map { it.toString() } // 이미지 URL 리스트를 저장
                 )
 
-                if (selectedCategory == "카테고리를 선택하십시오") {
-                    // 경고 창을 띄웁니다.
-                    Toast.makeText(this, "유효한 카테고리를 선택하십시오.", Toast.LENGTH_SHORT).show()
-                } else {
-                    // 기존 문서가 있는지 확인하지 않고 바로 업데이트합니다.
-                    val email = collectionData?.email
-                    val documentPath = "$email" + "_collection/$collectionTitle"
+                // Firestore에 데이터 저장
+                saveDataToFirestore(data)
 
-                    // 문서를 업데이트합니다.
-                    db.document(documentPath)
-                        .update(data)
-                        .addOnSuccessListener {
-                            // 성공할 경우
-                            Toast.makeText(this, "데이터가 업데이트되었습니다", Toast.LENGTH_SHORT).show()
-                            var intent = Intent(this, MainActivity::class.java)
-                            startActivity(intent)
-                            finish()
-                        }
-                        .addOnFailureListener { exception ->
-                            // 실패할 경우
-                            Log.w("WriteCollectionActivity", "Error updating document: $exception")
-                        }
-                }
             }
         }
         // 버튼 클릭을 통해 카테고리 추가 버튼 visible로
@@ -237,8 +222,9 @@ class ModifyCollectionActivity : AppCompatActivity() {
             if (data != null) {
                 val imageUri: Uri? = data.data
                 if (imageUri != null) {
-                    // 선택된 이미지를 RecyclerView에 추가합니다.
+                    // 선택된 이미지를 RecyclerView와 selectedImageUris에 추가합니다.
                     imageAdapter.addImage(imageUri)
+                    selectedImageUris.add(imageUri)
                 }
             }
         }
@@ -270,16 +256,21 @@ class ModifyCollectionActivity : AppCompatActivity() {
     }
     private fun uploadImagesAndGetUrls(imageUrls: List<Uri>, collectionTitle: String) {
         val storage = FirebaseStorage.getInstance()
-
         val email = FirebaseAuth.getInstance().currentUser?.email
+
+        // 기존 이미지의 URL을 가져옴
+        val collectionData = intent.getSerializableExtra("collectionData") as? CollectionData
+        val existingImageUrls = collectionData?.imageUrls ?: mutableListOf()
 
         val imageUrlsList = mutableListOf<String>()
 
         var num = 0
+        if (imageUrls.size != 0) num = collectionData!!.imageUrls.size
         for (i in imageUrls) {
             val imgFileName = "$num.jpg"
             val imageRef = storage.reference.child("$email").child("$collectionTitle").child("$imgFileName")
             num++
+            Image_num++
 
             imageRef.putFile(i)
                 .addOnSuccessListener {
@@ -295,5 +286,35 @@ class ModifyCollectionActivity : AppCompatActivity() {
                 }
         }
     }
+    private fun saveDataToFirestore(data: HashMap<String, Any>) {
+        // Firestore에 데이터 저장
+        val db = FirebaseFirestore.getInstance()
+        val email = FirebaseAuth.getInstance().currentUser?.email
+        val collectionTitle = data["title"] as? String
+
+        if (email != null && collectionTitle != null) {
+            val documentPath = "$email" + "_collection/$collectionTitle"
+
+            // 문서를 업데이트합니다.
+            db.document(documentPath)
+                .set(data)
+                .addOnSuccessListener {
+                    // 성공할 경우
+                    Toast.makeText(this, "데이터가 업데이트되었습니다", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                .addOnFailureListener { exception ->
+                    // 실패할 경우
+                    Log.w("ModifyCollectionActivity", "Error updating document: $exception")
+                }
+        } else {
+            // email이나 collectionTitle이 null인 경우에 대한 처리
+            Log.w("ModifyCollectionActivity", "Error: email or collectionTitle is null")
+            Toast.makeText(this, "데이터 업데이트 중 오류가 발생했습니다", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
 }
