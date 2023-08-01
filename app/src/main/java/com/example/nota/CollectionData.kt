@@ -4,7 +4,7 @@ import java.io.Serializable
 
 data class CollectionData(
     val email: String,
-    val imageUrls:List<String>,
+    val imageUrls: List<String>,
     val title: String,
     val rating: Long,
     val Y: Long,
