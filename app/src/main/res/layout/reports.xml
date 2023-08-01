@@ -61,7 +61,7 @@ recyclerview_bestChoice : 베스트 콜렉션 리사이클러뷰 -> 리스트: b
                 android:id="@+id/pie_chart"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginStart="36dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
 
 
@@ -259,7 +259,7 @@ recyclerview_bestChoice : 베스트 콜렉션 리사이클러뷰 -> 리스트: b
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="44dp"
                 android:layout_marginEnd="24dp"
-                android:text="월별 콜렉팅 횟수"
+                android:text="월별 컬렉팅 횟수"
                 android:textColor="@color/black"
                 android:textSize="20dp"
                 android:textStyle="bold"
