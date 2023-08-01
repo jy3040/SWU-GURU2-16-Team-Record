@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -33,6 +34,7 @@ class fragment_wishes : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_wishes, container, false)
 
+        val tv_wishes_count = view.findViewById<TextView>(R.id.tv_wishes_count)
 
         // Firebase 인스턴스 가져오기
         val auth = FirebaseAuth.getInstance()
@@ -105,7 +107,7 @@ class fragment_wishes : Fragment() {
                                 // WishData 객체를 생성하여 리스트에 추가
                                 collectionList.add(WishData(email, category, content, title, checked))
                             }
-
+                            tv_wishes_count.text="("+collectionList.size+")"
                             // 어댑터를 생성하고 리사이클러뷰에 연결
                             WishAdapter = WishAdapter(collectionList)
                             rv_wishes_list.adapter = WishAdapter

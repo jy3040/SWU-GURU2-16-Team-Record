@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -15,31 +16,16 @@ import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [fragment_collections.newInstance] factory method to
- * create an instance of this fragment.
- */
 class fragment_collections : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     private lateinit var rv_collections_list:RecyclerView
     private lateinit var CollectionAdapter:CollectionAdapter
     private val existingCategories = mutableListOf<String>()
 
+    private var selectedCategory: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -48,6 +34,9 @@ class fragment_collections : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_collections, container, false)
+
+        val tv_collections_title = view.findViewById<TextView>(R.id.tv_collections_title)
+        val tv_collections_count = view.findViewById<TextView>(R.id.tv_collections_count)
 
         val auth = FirebaseAuth.getInstance()
         val uid = auth.uid
@@ -122,10 +111,10 @@ class fragment_collections : Fragment() {
                                 val optiontitle2 = document.getString("optiontitle2") ?: ""
                                 val optiontitle3 = document.getString("optiontitle3") ?: ""
 
-                                // CollectionData 객체를 생성하여 리스트에 추가
                                 collectionList.add(CollectionData(email,imageUrls, title, rating,Y, M, D, category, content, optioncontent, optioncontent2, optioncontent3, optiontitle, optiontitle2, optiontitle3))
-                            }
 
+                            }
+                            tv_collections_count.text = "("+collectionList.size+")"
                             // 어댑터를 생성하고 리사이클러뷰에 연결
                             CollectionAdapter = CollectionAdapter(collectionList)
                             rv_collections_list.adapter = CollectionAdapter
@@ -147,25 +136,5 @@ class fragment_collections : Fragment() {
             }
 
         return view
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment fragment_collections.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            fragment_collections().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }
