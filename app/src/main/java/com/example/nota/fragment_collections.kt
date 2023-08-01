@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
@@ -15,20 +16,7 @@ import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [fragment_collections.newInstance] factory method to
- * create an instance of this fragment.
- */
 class fragment_collections : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     private lateinit var rv_collections_list:RecyclerView
     private lateinit var CollectionAdapter:CollectionAdapter
@@ -36,10 +24,6 @@ class fragment_collections : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -49,46 +33,14 @@ class fragment_collections : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_collections, container, false)
 
+        val tv_collections_title = view.findViewById<TextView>(R.id.tv_collections_title)
+        val tv_collections_count = view.findViewById<TextView>(R.id.tv_collections_count)
+
         val auth = FirebaseAuth.getInstance()
         val uid = auth.uid
         val db = FirebaseFirestore.getInstance()
         val collectionRef = db?.collection("user")?.document("$uid")
         var email:String
-
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        if (currentUser != null) {
-            val userEmail = currentUser.email ?: ""
-
-            val db = FirebaseFirestore.getInstance()
-            val chipGroup: ChipGroup = view.findViewById(R.id.cp_collections_chip_group)
-
-
-            FirebaseFirestore.getInstance()
-                .collection("$userEmail" + "_collection")
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        val category = document.getString("category")
-                        if (category != null && !existingCategories.contains(category)) {
-                            existingCategories.add(category)
-                            // 카테고리 리스트에 새로운 카테고리가 있으면, 해당 카테고리로 Chip을 동적으로 생성하여 ChipGroup에 추가
-                            val chip = Chip(requireContext())
-                            chip.text = category
-                            // Chip의 스타일과 속성을 설정하는 코드 추가
-                            // chip.setStyle(...);
-                            // chip.setChipBackgroundColorResource(...);
-                            // chip.setTextColor(...);
-                            // chip.setChipStrokeColorResource(...);
-                            // chip.setChipStrokeWidth(...);
-                            chipGroup.addView(chip)
-                        }
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    // 실패한 경우
-                    Log.w(TAG, "Error getting documents: $exception")
-                }
-        }
 
         // 리사이클러뷰 초기화
         rv_collections_list = view.findViewById(R.id.rv_collections_list)
@@ -122,10 +74,10 @@ class fragment_collections : Fragment() {
                                 val optiontitle2 = document.getString("optiontitle2") ?: ""
                                 val optiontitle3 = document.getString("optiontitle3") ?: ""
 
-                                // CollectionData 객체를 생성하여 리스트에 추가
                                 collectionList.add(CollectionData(email,imageUrls, title, rating,Y, M, D, category, content, optioncontent, optioncontent2, optioncontent3, optiontitle, optiontitle2, optiontitle3))
-                            }
 
+                            }
+                            tv_collections_count.text = "("+collectionList.size+")"
                             // 어댑터를 생성하고 리사이클러뷰에 연결
                             CollectionAdapter = CollectionAdapter(collectionList)
                             rv_collections_list.adapter = CollectionAdapter
@@ -147,25 +99,5 @@ class fragment_collections : Fragment() {
             }
 
         return view
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment fragment_collections.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            fragment_collections().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 }
