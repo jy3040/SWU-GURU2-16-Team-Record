@@ -19,7 +19,7 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 
-class CollectionAdapter(private val collectionList: List<CollectionData>) :
+class CollectionAdapter(private var collectionList: MutableList<CollectionData>) :
     RecyclerView.Adapter<CollectionAdapter.CollectionViewHolder>() {
 
     interface OnItemClickListener {
@@ -33,6 +33,13 @@ class CollectionAdapter(private val collectionList: List<CollectionData>) :
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.onItemClickListener = listener
     }
+    // CollectionAdapter 클래스에 추가
+    fun updateData(newData: List<CollectionData>) {
+        collectionList.clear()
+        collectionList.addAll(newData)
+        notifyDataSetChanged()
+    }
+
 
     // View Holder 클래스
     class CollectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
