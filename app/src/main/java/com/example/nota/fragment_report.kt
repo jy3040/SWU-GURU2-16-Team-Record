@@ -62,8 +62,8 @@ class fragment_report : Fragment() {
                         dataList.add(BarEntry(i.toFloat(), count))
 
                         if (i == currentMonth) {
-                            val barDataSet = BarDataSet(dataList, "NOTA")
-                            barDataSet.color = Color.parseColor("#655691")
+                            val barDataSet = BarDataSet(dataList, "Month")
+                            barDataSet.color = Color.parseColor("#8274AC")
                             barDataSet.valueFormatter = NaturalValueFormatter()
                             val barData = BarData(barDataSet)
                             barChart.data = barData
@@ -71,8 +71,8 @@ class fragment_report : Fragment() {
                             val xAxis = barChart.xAxis
                             xAxis.valueFormatter = IndexAxisValueFormatter(
                                 getXAxisLabels(
-                                    startMonth - 2,
-                                    currentMonth + 2
+                                    startMonth - 3,
+                                    currentMonth
                                 )
                             )
 
@@ -88,8 +88,14 @@ class fragment_report : Fragment() {
                             barChart.setFitBars(true)
                             barChart.description.text = ""
                             barChart.animateY(2000)
+                            barChart.setDrawGridBackground(false)
+                            // Hide the left y-axis of the bar chart
+                            barChart.axisLeft.isEnabled = false
+                            barChart.xAxis.setDrawGridLines(false)
+                            barChart.axisRight.setDrawGridLines(false)
                         }
                     }
+
                     .addOnFailureListener { exception ->
                         Log.e(TAG, "Error getting documents: ", exception)
                     }
@@ -236,7 +242,16 @@ class fragment_report : Fragment() {
 
                 // Create a PieDataSet
                 val pieDataSet = PieDataSet(pieEntries, "Categories")
-                pieDataSet.colors = ColorTemplate.COLORFUL_COLORS.toList()
+
+                val customColors = listOf(
+                    Color.parseColor("#8274AC"), // Custom color for the first segment
+                    Color.parseColor("#8E84AD"), // Custom color for the second segment
+                    Color.parseColor("#CBB7D4"), // Custom color for the third segment
+                    Color.parseColor("#C0A3D2")
+                )
+                pieDataSet.colors = customColors
+
+
                 pieDataSet.valueFormatter = PercentageValueFormatter(totalCount)
 
                 // Create a PieData object and set it to the pie chart
