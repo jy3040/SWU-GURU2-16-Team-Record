@@ -22,8 +22,6 @@ class fragment_collections : Fragment() {
     private lateinit var CollectionAdapter:CollectionAdapter
     private val existingCategories = mutableListOf<String>()
 
-    private var selectedCategory: String = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -43,41 +41,6 @@ class fragment_collections : Fragment() {
         val db = FirebaseFirestore.getInstance()
         val collectionRef = db?.collection("user")?.document("$uid")
         var email:String
-
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        if (currentUser != null) {
-            val userEmail = currentUser.email ?: ""
-
-            val db = FirebaseFirestore.getInstance()
-            val chipGroup: ChipGroup = view.findViewById(R.id.cp_collections_chip_group)
-
-
-            FirebaseFirestore.getInstance()
-                .collection("$userEmail" + "_collection")
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        val category = document.getString("category")
-                        if (category != null && !existingCategories.contains(category)) {
-                            existingCategories.add(category)
-                            // 카테고리 리스트에 새로운 카테고리가 있으면, 해당 카테고리로 Chip을 동적으로 생성하여 ChipGroup에 추가
-                            val chip = Chip(requireContext())
-                            chip.text = category
-                            // Chip의 스타일과 속성을 설정하는 코드 추가
-                            // chip.setStyle(...);
-                            // chip.setChipBackgroundColorResource(...);
-                            // chip.setTextColor(...);
-                            // chip.setChipStrokeColorResource(...);
-                            // chip.setChipStrokeWidth(...);
-                            chipGroup.addView(chip)
-                        }
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    // 실패한 경우
-                    Log.w(TAG, "Error getting documents: $exception")
-                }
-        }
 
         // 리사이클러뷰 초기화
         rv_collections_list = view.findViewById(R.id.rv_collections_list)

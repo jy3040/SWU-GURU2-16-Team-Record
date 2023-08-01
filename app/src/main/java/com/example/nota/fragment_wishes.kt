@@ -18,7 +18,6 @@ class fragment_wishes : Fragment() {
 
     private lateinit var rv_wishes_list: RecyclerView
     private lateinit var WishAdapter: WishAdapter
-    private val existingW_Category = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,42 +42,6 @@ class fragment_wishes : Fragment() {
         val collectionRef = db?.collection("user")?.document("$uid")
         var email: String
 
-        // 사용자의 위시 리스트를 가져와서 화면에 표시
-
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        if (currentUser != null) {
-            val userEmail = currentUser.email ?: ""
-
-            val db = FirebaseFirestore.getInstance()
-            val chipGroup: ChipGroup = view.findViewById(R.id.cp_wishes_chip_group)
-
-
-            FirebaseFirestore.getInstance()
-                .collection("$userEmail" + "_wish")
-                .get()
-                .addOnSuccessListener { documents ->
-                    for (document in documents) {
-                        val category = document.getString("category")
-                        if (category != null && !existingW_Category.contains(category)) {
-                            existingW_Category.add(category)
-                            // 카테고리 리스트에 새로운 카테고리가 있으면, 해당 카테고리로 Chip을 동적으로 생성하여 ChipGroup에 추가
-                            val chip = Chip(requireContext())
-                            chip.text = category
-                            // Chip의 스타일과 속성을 설정하는 코드 추가
-                            // chip.setStyle(...);
-                            // chip.setChipBackgroundColorResource(...);
-                            // chip.setTextColor(...);
-                            // chip.setChipStrokeColorResource(...);
-                            // chip.setChipStrokeWidth(...);
-                            chipGroup.addView(chip)
-                        }
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    // 실패한 경우
-                    Log.w(ContentValues.TAG, "Error getting documents: $exception")
-                }
-        }
         // 리사이클러뷰 초기화
         rv_wishes_list = view.findViewById(R.id.rv_wishes_list)
 
